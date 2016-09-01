@@ -1,0 +1,11 @@
+\begin{thebibliography}{}
+
+\bibitem[Klambauer {\em et~al.}(2012)Klambauer, Schwarzbauer, Mitterecker,
+  Mayr, Clevert, Bodenhofer, and Hochreiter]{Klambauer:11}
+Klambauer, G., Schwarzbauer, K., Mitterecker, A., Mayr, A., Clevert, D.-A.,
+  Bodenhofer, U., and Hochreiter, S. (2012).
+\newblock {cn.MOPS: Mixture of Poissons for Discovering Copy Number Variations
+  in Next Generation Sequencing Data with a Low False Discovery Rate}.
+\newblock {\em Nucleic Acids Research\/}, {\bf 40}(9), e69.
+
+\end{thebibliography}
