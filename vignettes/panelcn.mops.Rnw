@@ -18,10 +18,10 @@
 \hypersetup{colorlinks=false,
     pdfborder=0 0 0,
     pdftitle={panelcn.MOPS - CNV detection tool for targeted NGS panel 
-    sequencingdata},
+    data},
     pdfauthor={Gundula Povysil}}
 
-\title{panelcn.MOPS - CNV detection tool for targeted NGS panel sequencing}
+\title{panelcn.MOPS - CNV detection tool for targeted NGS panel data}
 \author{Verena Haunschmid and Gundula Povysil}
 \affiliation{Institute of Bioinformatics, Johannes Kepler University
 Linz\\Altenberger Str. 69, 4040 Linz, Austria\\
