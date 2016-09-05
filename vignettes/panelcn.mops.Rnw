@@ -391,8 +391,20 @@ the name of the test sample, the countWindows used, as well as a vector with
 the names of the genes of interest and an integer specifying which of the 
 genes of interest to plot.
 
+\section{Quality control}
 
-
+The panelcn.MOPS algorithm includes different quality control metrics. 1) ROIs 
+are excluded if their median read count (RC) across all samples does not exceed 
+a user defined threshold (default: 30), additionally a warning message is 
+displayed. 2) ROIs are marked as "low quality" in the result table if their RCs 
+show a high variation across all samples. 3) Samples with a median RC across 
+all exons lower than 0.55 times the median of all samples are considered as low 
+quality. 4) For each ROI the ratio between the normalized RCs of each sample 
+compared to the median across all samples is calculated. Samples that show a 
+high variation in these RC ratios are also flagged as low quality. Low quality 
+samples are excluded if they are control samples which leads to a warning 
+message. If a test sample is of low quality, only a warning message is 
+displayed. 
 
 \section{Adjusting sensitivity and specificity}
 The default parameters of the \panelcnmops\ algorithm were optimized on a data 

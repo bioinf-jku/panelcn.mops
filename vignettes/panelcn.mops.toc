@@ -4,5 +4,6 @@
 \contentsline {section}{\numberline {4}runPanelcnMops}{7}{section.4}
 \contentsline {section}{\numberline {5}Results}{7}{section.5}
 \contentsline {section}{\numberline {6}Visualization of results}{9}{section.6}
-\contentsline {section}{\numberline {7}Adjusting sensitivity and specificity}{10}{section.7}
-\contentsline {section}{\numberline {8}How to cite this package}{10}{section.8}
+\contentsline {section}{\numberline {7}Quality control}{10}{section.7}
+\contentsline {section}{\numberline {8}Adjusting sensitivity and specificity}{10}{section.8}
+\contentsline {section}{\numberline {9}How to cite this package}{10}{section.9}

@@ -2,6 +2,7 @@
 %\VignetteIndexEntry{panelcn.mops: Manual for the R package}
 %\VignetteDepends{panelcn.mops}
 %\VignettePackage{panelcn.mops}
+%\VignetteEngine{knitr::knitr}
 %\VignetteKeywords{copy number analysis, mixture distribution, latent variables,
 % Poisson distribution, EM algorithm, NGS, CNV, copy number variant}
 
@@ -64,12 +65,12 @@
 \usepackage[authoryear]{natbib}
 
 \hypersetup{colorlinks=false,
-   pdfborder=0 0 0,
-   pdftitle={panelcn.MOPS - CNV detection tool for targeted NGS panel sequencing
-   data},
-   pdfauthor={Gundula Povysil}}
+    pdfborder=0 0 0,
+    pdftitle={panelcn.MOPS - CNV detection tool for targeted NGS panel 
+    data},
+    pdfauthor={Gundula Povysil}}
 
-\title{panelcn.MOPS - CNV detection tool for targeted NGS panel sequencing}
+\title{panelcn.MOPS - CNV detection tool for targeted NGS panel data}
 \author{Verena Haunschmid and Gundula Povysil}
 \affiliation{Institute of Bioinformatics, Johannes Kepler University
 Linz\\Altenberger Str. 69, 4040 Linz, Austria\\
@@ -95,7 +96,7 @@ Linz\\Altenberger Str. 69, 4040 Linz, Austria\\
 
 
 
-\newcommand{\cnmopsVersion}{0.1.3}
+\newcommand{\cnmopsVersion}{0.1.4}
 \manualtitlepage[Version \cnmopsVersion, \today]
 
 %\section*{Scope and Purpose of this Document}
@@ -173,7 +174,7 @@ The whole pipeline will only take a few steps, if BAM files are available
 \begin{alltt}
 \hlstd{testfile} \hlkwb{<-} \hlstr{"SAMPLE1.bam"}
 \hlstd{test} \hlkwb{<-} \hlkwd{countBamListInGRanges}\hlstd{(}\hlkwc{countWindows} \hlstd{= countWindows,}
-                              \hlkwc{bam.files} \hlstd{= testfile,} \hlkwc{read.width} \hlstd{=} \hlnum{150}\hlstd{)}
+                                \hlkwc{bam.files} \hlstd{= testfile,} \hlkwc{read.width} \hlstd{=} \hlnum{150}\hlstd{)}
 \end{alltt}
 \end{kframe}
 \end{knitrout}
@@ -187,13 +188,13 @@ The whole pipeline will only take a few steps, if BAM files are available
 \hlstd{selectedGenes} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"ATM"}\hlstd{)}
 
 \hlstd{XandCB} \hlkwb{<-} \hlstd{test}
-\hlstd{XandCB}\hlopt{@}\hlkwc{elementMetadata} \hlkwb{<-} \hlkwd{cbind}\hlstd{(XandCB}\hlopt{@}\hlkwc{elementMetadata}\hlstd{,}
-                                \hlstd{control}\hlopt{@}\hlkwc{elementMetadata}\hlstd{)}
+\hlkwd{elementMetadata}\hlstd{(XandCB)} \hlkwb{<-} \hlkwd{cbind}\hlstd{(}\hlkwd{elementMetadata}\hlstd{(XandCB),}
+                                \hlkwd{elementMetadata}\hlstd{(control))}
 
 \hlstd{resultlist} \hlkwb{<-} \hlkwd{runPanelcnMops}\hlstd{(XandCB,}
-                             \hlkwc{testiv} \hlstd{=} \hlnum{1}\hlopt{:}\hlkwd{ncol}\hlstd{(test}\hlopt{@}\hlkwc{elementMetadata}\hlstd{),}
-                             \hlkwc{countWindows} \hlstd{= countWindows,}
-                             \hlkwc{selectedGenes} \hlstd{= selectedGenes)}
+                            \hlkwc{testiv} \hlstd{=} \hlnum{1}\hlopt{:}\hlkwd{ncol}\hlstd{(}\hlkwd{elementMetadata}\hlstd{(test)),}
+                            \hlkwc{countWindows} \hlstd{= countWindows,}
+                            \hlkwc{selectedGenes} \hlstd{= selectedGenes)}
 \end{alltt}
 \end{kframe}
 \end{knitrout}
@@ -210,11 +211,11 @@ Section \ref{s:plot}.
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
-\hlstd{sampleNames} \hlkwb{<-} \hlkwd{colnames}\hlstd{(test}\hlopt{@}\hlkwc{elementMetadata}\hlstd{)}
+\hlstd{sampleNames} \hlkwb{<-} \hlkwd{colnames}\hlstd{(}\hlkwd{elementMetadata}\hlstd{(test))}
 \hlstd{resulttable} \hlkwb{<-} \hlkwd{createResultTable}\hlstd{(}\hlkwc{result} \hlstd{= resultlist,} \hlkwc{XandCB} \hlstd{= XandCB,}
-                                 \hlkwc{countWindows} \hlstd{= countWindows,}
-                                 \hlkwc{selectedGenes} \hlstd{= selectedGenes,}
-                                 \hlkwc{sampleNames} \hlstd{= sampleNames)}
+                                    \hlkwc{countWindows} \hlstd{= countWindows,}
+                                    \hlkwc{selectedGenes} \hlstd{= selectedGenes,}
+                                    \hlkwc{sampleNames} \hlstd{= sampleNames)}
 \end{alltt}
 
 
@@ -288,8 +289,8 @@ Section \ref{s:plot}.
 % \newlength{\mylen}
 % \setlength{\mylen}{0.43cm}
 % 
-% \[\mathbf{X}= \begin{array}{c} \\ \mathrm{Segment\ 1} \\ \mathrm{Segment\ 2} \\
-% \mathrm{Segment\ 3} \\ \mathrm{Segment\ 4}\\ \mathrm{Segment\ 5} \\
+% \[\mathbf{X}= \begin{array}{c} \\ \mathrm{Segment\ 1} \\ \mathrm{Segment\ 2} 
+% \\ \mathrm{Segment\ 3} \\ \mathrm{Segment\ 4}\\ \mathrm{Segment\ 5} \\
 % \mathrm{Segment\ 6} \\ \hspace{0.2cm} \end{array}
 % \begin{array}{c}
 % \begin{array}{cccc}
@@ -307,8 +308,8 @@ Section \ref{s:plot}.
 % \]
 % 
 % 
-% \panelcnmops\ can handle numeric and integer matrices or \verb+GRanges+ objects,
-% in which the read counts are stored as \verb+values+ of the object.
+% \panelcnmops\ can handle numeric and integer matrices or \verb+GRanges+ 
+% objects, in which the read counts are stored as \verb+values+ of the object.
 % 
 % 
 % 
@@ -352,12 +353,11 @@ The BED file should have the following structure:
 
 While the first 3 columns list chromosome name, start and end position, the 
 fourth column needs to start with the gene name. Additional information in the 
-fourth column needs to be seperated with a dot and may include the exon number 
-and a combination of the first 3 columns. By default the "chr" prefix of the 
-chromosome name is removed if present. This can be changed by setting the 
-{\tt chr} parameter to TRUE. If a mismatch of chromosome naming between the 
-\verb+countWindows+ object and the BAM files is detected, the naming convention 
-of the BAM file is chosen.
+fourth column needs to be separated with a dot and may include the exon number 
+and further information. By default the "chr" prefix of the chromosome name is 
+removed if present. This can be changed by setting the {\tt chr} parameter to 
+TRUE. If a mismatch of chromosome naming between the \verb+countWindows+ object 
+and the BAM files is detected, the naming convention of the BAM file is chosen.
 
 
 In the second step RCs are generated from the BAM files. The read.width 
@@ -369,7 +369,7 @@ parameter reflects the typical length of the reads that should be counted.
 \hlstd{testbam} \hlkwb{<-} \hlkwd{list.files}\hlstd{(}\hlkwd{system.file}\hlstd{(}\hlstr{"extdata"}\hlstd{,} \hlkwc{package} \hlstd{=} \hlstr{"panelcn.mops"}\hlstd{),}
                         \hlkwc{pattern} \hlstd{=} \hlstr{".bam$"}\hlstd{,} \hlkwc{full.names} \hlstd{=} \hlnum{TRUE}\hlstd{)}
 \hlstd{test} \hlkwb{<-} \hlkwd{countBamListInGRanges}\hlstd{(}\hlkwc{countWindows} \hlstd{= countWindows,}
-                              \hlkwc{bam.files} \hlstd{= testbam,} \hlkwc{read.width} \hlstd{=} \hlnum{150}\hlstd{)}
+                                \hlkwc{bam.files} \hlstd{= testbam,} \hlkwc{read.width} \hlstd{=} \hlnum{150}\hlstd{)}
 \end{alltt}
 
 
@@ -423,9 +423,8 @@ median RC over all samples to exclude low coverage ROIs.
 \hlkwd{data}\hlstd{(panelcn.mops)}
 
 \hlstd{XandCB} \hlkwb{<-} \hlstd{test}
-\hlstd{XandCB}\hlopt{@}\hlkwc{elementMetadata} \hlkwb{<-} \hlkwd{cbind}\hlstd{(XandCB}\hlopt{@}\hlkwc{elementMetadata}\hlstd{,}
-                                \hlstd{control}\hlopt{@}\hlkwc{elementMetadata}\hlstd{)}
-
+\hlkwd{elementMetadata}\hlstd{(XandCB)} \hlkwb{<-} \hlkwd{cbind}\hlstd{(}\hlkwd{elementMetadata}\hlstd{(XandCB),}
+                                \hlkwd{elementMetadata}\hlstd{(control))}
 \hlstd{resultlist} \hlkwb{<-} \hlkwd{runPanelcnMops}\hlstd{(XandCB,} \hlkwc{countWindows} \hlstd{= countWindows)}
 \end{alltt}
 \end{kframe}
@@ -435,7 +434,7 @@ median RC over all samples to exclude low coverage ROIs.
 
 \section{Results}
 \label{s:results}
-The function \verb+runPanelcnMops+ resturns a list of objects of the S4 class 
+The function \verb+runPanelcnMops+ returns a list of objects of the S4 class 
 CNVDetectionResult, one CNVDetectionResult object per test sample. 
 The structure of the CNVDetectionResult object can be listed by calling
 \begin{knitrout}
@@ -488,17 +487,19 @@ The CNVs per individual are stored in the slot \verb+integerCopyNumber+:
 
 
 
-The function \verb+createResultTable+ summerizes all relevant information for user selected genes of interest in a list of tables with one table per test sample:
+The function \verb+createResultTable+ summarizes all relevant information for 
+user selected genes of interest in a list of tables with one table per test 
+sample:
 
 
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
-\hlstd{sampleNames} \hlkwb{<-} \hlkwd{colnames}\hlstd{(test}\hlopt{@}\hlkwc{elementMetadata}\hlstd{)}
+\hlstd{sampleNames} \hlkwb{<-} \hlkwd{colnames}\hlstd{(}\hlkwd{elementMetadata}\hlstd{(test))}
 \hlstd{resulttable} \hlkwb{<-} \hlkwd{createResultTable}\hlstd{(}\hlkwc{result} \hlstd{= resultlist,} \hlkwc{XandCB} \hlstd{= XandCB,}
-                                 \hlkwc{countWindows} \hlstd{= countWindows,}
-                                 \hlkwc{selectedGenes} \hlstd{= selectedGenes,}
-                                 \hlkwc{sampleNames} \hlstd{= sampleNames)}
+                                    \hlkwc{countWindows} \hlstd{= countWindows,}
+                                    \hlkwc{selectedGenes} \hlstd{= selectedGenes,}
+                                    \hlkwc{sampleNames} \hlstd{= sampleNames)}
 \end{alltt}
 
 
@@ -574,14 +575,26 @@ the name of the test sample, the countWindows used, as well as a vector with
 the names of the genes of interest and an integer specifying which of the 
 genes of interest to plot.
 
+\section{Quality control}
 
-
+The panelcn.MOPS algorithm includes different quality control metrics. 1) ROIs 
+are excluded if their median read count (RC) across all samples does not exceed 
+a user defined threshold (default: 30), additionally a warning message is 
+displayed. 2) ROIs are marked as "low quality" in the result table if their RCs 
+show a high variation across all samples. 3) Samples with a median RC across 
+all exons lower than 0.55 times the median of all samples are considered as low 
+quality. 4) For each ROI the ratio between the normalized RCs of each sample 
+compared to the median across all samples is calculated. Samples that show a 
+high variation in these RC ratios are also flagged as low quality. Low quality 
+samples are excluded if they are control samples which leads to a warning 
+message. If a test sample is of low quality, only a warning message is 
+displayed. 
 
 \section{Adjusting sensitivity and specificity}
 The default parameters of the \panelcnmops\ algorithm were optimized on a data 
 set of targeted NGS panel data with the aim of detecting CNVs ranging in size 
-from part of a ROI to whole genes. However, you might want to adjust sensitivity 
-and specificity to your specific needs.
+from part of a ROI to whole genes. However, you might want to adjust 
+sensitivity and specificity to your specific needs.
 
 The parameter that influences sensitivity and specificity the most is {\tt I}, 
 the vector of expected fold changes of the copy number classes. The default for 
@@ -591,9 +604,9 @@ Increasing the values for CN0 and CN1 further and decreasing the values for
 CN3 and CN4 may help to improve the sensitivity, a change in the other 
 direction may increase the specificity.
 
-Additional parameters that can be tuned to improve the results are the different 
-normalization parameters: {\tt normType}, {\tt sizeFactor}, {\tt qu}, 
-{\tt quSizeFactor}, and {\tt norm}.
+Additional parameters that can be tuned to improve the results are the 
+different normalization parameters: {\tt normType}, {\tt sizeFactor}, 
+{\tt qu}, {\tt quSizeFactor}, and {\tt norm}.
 
 
 
