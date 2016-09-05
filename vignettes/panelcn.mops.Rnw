@@ -168,7 +168,7 @@ selectedGenes <- "ATM"
 
 <<>>=
 sampleNames <- colnames(elementMetadata(test))
-resulttable <- createResultTable(result = resultlist, XandCB = XandCB, 
+resulttable <- createResultTable(resultlist = resultlist, XandCB = XandCB, 
                                     countWindows = countWindows, 
                                     selectedGenes = selectedGenes, 
                                     sampleNames = sampleNames)
@@ -348,7 +348,7 @@ sample:
 
 <<>>=
 sampleNames <- colnames(elementMetadata(test))
-resulttable <- createResultTable(result = resultlist, XandCB = XandCB, 
+resulttable <- createResultTable(resultlist = resultlist, XandCB = XandCB, 
                                     countWindows = countWindows, 
                                     selectedGenes = selectedGenes, 
                                     sampleNames = sampleNames)
@@ -398,7 +398,7 @@ are excluded if their median read count (RC) across all samples does not exceed
 a user defined threshold (default: 30), additionally a warning message is 
 displayed. 2) ROIs are marked as "low quality" in the result table if their RCs 
 show a high variation across all samples. 3) Samples with a median RC across 
-all exons lower than 0.55 times the median of all samples are considered as low 
+all ROIs lower than 0.55 times the median of all samples are considered as low 
 quality. 4) For each ROI the ratio between the normalized RCs of each sample 
 compared to the median across all samples is calculated. Samples that show a 
 high variation in these RC ratios are also flagged as low quality. Low quality 

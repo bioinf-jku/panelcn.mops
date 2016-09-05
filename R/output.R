@@ -18,7 +18,7 @@
 #'                                 elementMetadata(control))
 #' sampleNames <- colnames(elementMetadata(test))
 #' selectedGenes <- "ATM"
-#' resulttable <- createResultTable(result = resultlist, XandCB = XandCB, 
+#' resulttable <- createResultTable(resultlist = resultlist, XandCB = XandCB, 
 #'                                  countWindows = countWindows, 
 #'                                  selectedGenes = selectedGenes, 
 #'                                  sampleNames = sampleNames)
