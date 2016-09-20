@@ -94,7 +94,7 @@ createResultTable <- function(resultlist, XandCB, countWindows,
         
         ## low Qual
         lowQ <- rep(NA, nrow(tempTable))
-        badexi <- result@params$badex
+        badexi <- result@params$badROI
         badexn <- row.names(result@normalizedData)[badexi]
         
         ##build initial table
