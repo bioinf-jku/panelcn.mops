@@ -40,6 +40,8 @@
 #' @param minReadCount if all samples are below this value the algorithm will
 #' return the prior knowledge. This prevents that the algorithm from being
 #' applied to segments with very low coverage. Default = 5.
+#' @param maxControls integer reflecting the maximal numbers of controls to 
+#' use. If set to 0 all highly correlated controls are used. Default = 25
 #' @param useMedian flag indicating whether "median" instead of "mean" of a
 #' segment should be used for the CNV call. Default = FALSE.
 #' @param returnPosterior flag that decides whether the posterior probabilities
@@ -63,6 +65,7 @@ panelcn.mops <- function(input, testi = 1, geneInd=NULL,
                             cyc = 20,
                             normType = "quant", sizeFactor = "quant", qu = 0.25,
                             quSizeFactor = 0.75, norm = 1, minReadCount = 5,
+                            maxControls = 25,
                             useMedian = FALSE, returnPosterior = TRUE){
     # CHECK INPUT
 
@@ -161,6 +164,13 @@ panelcn.mops <- function(input, testi = 1, geneInd=NULL,
     #if (!is.character(segAlgorithm)){
     #    stop("\"segAlgorithm\" must be \"fastseg\" or \"DNAcopy\"!")
     #}
+    
+    if (!(is.numeric(maxControls) & maxControls > 0 & length(maxControls)==1)) {
+        stop("\"maxControls\" must be numeric, larger than 0 and of length 1.")
+    } else {
+		message(paste0("\"maxControls\" is set to ", maxControls))
+	}
+    
     if (!(is.numeric(minReadCount) & length(minReadCount)==1))
         stop("\"minReadCount\" must be numeric and of length 1.")
     if (!is.logical(returnPosterior))
@@ -205,7 +215,7 @@ panelcn.mops <- function(input, testi = 1, geneInd=NULL,
     X.norm <- X
     
     total.counts <- apply(X.norm, MARGIN = 1, FUN = sum)
-    my.quantiles <- quantile(total.counts [ which(total.counts > 30) ], 
+    my.quantiles <- quantile(total.counts[which(total.counts > 30)], 
                                 prob = c(0.1, 0.9), na.rm = TRUE)
 
     #ROIlength <- width(input)
@@ -236,11 +246,11 @@ panelcn.mops <- function(input, testi = 1, geneInd=NULL,
             conti <- 2:nSamples
         }
     }
-    
-    if (length(conti) > 30) {
-        conti <- conti[1:30]
+    if (maxControls > 0) {
+        if (length(conti) > maxControls) {
+            conti <- conti[1:maxControls]
+        }
     }
-    
     message(paste0("Selected ", length(conti), " out of ", 
                     length(sampleNamesC), " controls:\n"))
     message(paste0(sampleNames[newO[conti]], "\n"))
