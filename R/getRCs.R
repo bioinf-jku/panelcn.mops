@@ -16,6 +16,7 @@ getWindows <- function(filename,chr=FALSE) {
     if (ncol(data) < 4) {
         stop("BED file needs to have gene name in 4th column.")
     }
+    data <- data[,1:4]
     data$V4 <- as.character(data$V4)
     data$V1 <- as.character(data$V1)
     data <- data[!duplicated(paste(data$V1, data$V2, data$V3, sep="_")),]
