@@ -209,32 +209,16 @@ panelcn.mops <- function(input, testi = 1, geneInd=NULL,
     }
 
     # selecting controls ###################################
-#    X.norm <- normalizeChromosomes(X, normType="mean",
-#                                    sizeFactor="mean")
-
-    X.norm <- X
-    
-    total.counts <- apply(X.norm, MARGIN = 1, FUN = sum)
-    my.quantiles <- quantile(total.counts[which(total.counts > 30)], 
-                                prob = c(0.1, 0.9), na.rm = TRUE)
-
-    #ROIlength <- width(input)
-    #goodROI <- which(ROIlength >= quantile(ROIlength, prob=0.05, na.rm=TRUE) & 
-                    # ROIlength <= quantile(ROIlength, prob=0.95, na.rm=TRUE) &
-                    # total.counts > my.quantiles[1] &
-                    # total.counts < my.quantiles[2]
-                    # )
 
     goodROI <- 1:nROIs
     goodROI <- setdiff(goodROI, geneInd)
-    Xgood <- X.norm[goodROI,]
+    Xgood <- X[goodROI,]
     K <- cor(Xgood)
     newO <- order(K[,1], decreasing = TRUE)
     K <- K[newO,]
     
     message(paste0(K[,1], "\n"))
     
-#    conti <- which(K[,1] > 0.96)
     conti <- which(K[,1] > 0.99)
 
     conti <- setdiff(conti, 1)
