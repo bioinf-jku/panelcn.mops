@@ -1,7 +1,7 @@
 #' Create box plot of normalized read counts
 #'
 #' @param result result object of panelcn.mops
-#' @param sampleName name of the test sample (basename of the BAM file)
+#' @param sampleName name of the test sample that should be displayed
 #' @param countWindows data.frame with contents of a BED file as returned by
 #' getWindows
 #' @param selectedGenes vector of names of genes of interest that should be
@@ -48,7 +48,12 @@ plotBoxplot <- function(result, sampleName, countWindows, selectedGenes = NULL,
         message(paste0("Setting showGene=", showGene,
                         " not possible - using gene ", selectedGenes[geneidx]))
     }
-
+    if (sampleName != result@sampleNames[1]) {
+        message(paste0("sampleName: ", sampleName, " not equal to name ",
+                        "specified in result which is: ", 
+                        result@sampleNames[1]))
+    }
+    
     selectedGenes <- selectedGenes[geneidx]
     geneWindows <- countWindows[which(countWindows$gene %in% selectedGenes),]
     geneWindowsPaste <- paste(geneWindows$chromosome, geneWindows$start,
@@ -74,7 +79,7 @@ plotBoxplot <- function(result, sampleName, countWindows, selectedGenes = NULL,
     if (showLegend) {
         #par(mar=c(5.1, 4.1, 4.1, 16.1), xpd=NA)
         #par(xpd=T, mar=par()$mar+c(0,0,length(filelist),0))
-        ylim <- ylim*1.35
+        ylim <- ylim*1.05
     }
 
     boxplot(t(plotData[exonRange[1]:exonRange[2],]), ylim=ylim, xaxt="n",

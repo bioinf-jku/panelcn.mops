@@ -212,7 +212,12 @@ panelcn.mops <- function(input, testi = 1, geneInd=NULL,
 
     goodROI <- 1:nROIs
     goodROI <- setdiff(goodROI, geneInd)
-    Xgood <- X[goodROI,]
+    if (length(goodROI)>0) {
+        Xgood <- X[goodROI,]
+    } else {
+        Xgood <- X
+    }
+    
     K <- cor(Xgood)
     newO <- order(K[,1], decreasing = TRUE)
     K <- K[newO,]
