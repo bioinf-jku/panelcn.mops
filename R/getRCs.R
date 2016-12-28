@@ -13,7 +13,7 @@
 #' @export
 getWindows <- function(filename, chr = FALSE) {
     data <- read.csv(filename, sep="\t", header = FALSE)
-    if (ncol(data) < 4) {
+    if (ncol(data) < 4 || is.na(data[1,2])) {
         stop("BED file needs to have gene name in 4th column and no header.")
     }
     data <- data[,1:4]
