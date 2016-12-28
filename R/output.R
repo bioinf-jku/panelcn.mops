@@ -89,9 +89,6 @@ createResultTable <- function(resultlist, XandCB, countWindows,
         #exonsPerGenes <- aggregate(name ~ gene, data=countWindows, length)
         exonNr <- rep(0, nrow(tempTable))
 
-        ## posterior
-        posterior <- rep(0, nrow(tempTable))
-        
         ## low Qual
         lowQ <- rep(NA, nrow(tempTable))
         badexi <- result@params$badROI
@@ -100,7 +97,7 @@ createResultTable <- function(resultlist, XandCB, countWindows,
         ##build initial table
         message("Building table...")
         tempTable <- data.frame(tempTable, genes, exonNr, exons, RC, medianRC,
-                                RC.norm, medianRC.norm, posterior, lowQ)
+                                RC.norm, medianRC.norm, lowQ)
 
         ##get starts in order of normalized matrix -- order is different
         normDataStarts <- as.numeric(sapply(strsplit(
@@ -121,9 +118,6 @@ createResultTable <- function(resultlist, XandCB, countWindows,
                                     paste(geneWindows$chromosome, 
                                             geneWindows$start, geneWindows$end,
                                             sep="_")),]
-
-        ## for posterior
-        cns <- paste("CN", 0:8, sep="")
 
         ## used in function
         medianRC <- apply(as.matrix(XandCB@elementMetadata), 1, median)
@@ -174,15 +168,6 @@ createResultTable <- function(resultlist, XandCB, countWindows,
             } else {
                 tempTable[i,]$lowQ <- ""
             }
-            
-            if(is.element("posteriorProbs", slotNames(result))) {
-                if (is.na(ccn)) {
-                    tempTable[i,]$posterior <- NA
-                } else {
-                    tempTable[i,]$posterior <- 
-                                result@posteriorProbs[postSeg,ccn,currSample]
-                }
-            }
         }
         # to have order from temptable, not from countWindows
         tempGenes <- unique(tempTable$genes)
@@ -205,7 +190,6 @@ createResultTable <- function(resultlist, XandCB, countWindows,
                                 "medRC.norm"=tempTable$medianRC.norm,
                                 "lowQual"=tempTable$lowQ,
                                 "CN"=tempTable$CN)
-                                # "Posterior"=tempTable$posterior)
 
         message("Finished")
 

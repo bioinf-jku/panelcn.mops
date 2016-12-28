@@ -11,6 +11,8 @@
 #' names of the test samples. Default = TRUE
 #' @param exonRange vector of 2 positive integers to limit box plot to a
 #' certain range of exons or NULL
+#' @param ylimup numeric, maximum RC is multiplied by this value to calculate 
+#' second value of ylim. Default = 1.15
 #' @return generates a boxplot of the normalized read counts
 #' @examples
 #' data(panelcn.mops)
@@ -21,7 +23,8 @@
 #'            showGene = 1)
 #' @export
 plotBoxplot <- function(result, sampleName, countWindows, selectedGenes = NULL,
-                        showGene = 1, showLegend = TRUE, exonRange = NULL) {
+                        showGene = 1, showLegend = TRUE, exonRange = NULL, 
+                        ylimup = 1.15) {
 
     if (missing(countWindows)) {
         stop("\"countWindows\" need to be specified.")
@@ -55,14 +58,16 @@ plotBoxplot <- function(result, sampleName, countWindows, selectedGenes = NULL,
     }
     
     selectedGenes <- selectedGenes[geneidx]
-    geneWindows <- countWindows[which(countWindows$gene %in% selectedGenes),]
+    # dummy ROI necessary for genes with only 1 ROI
+    geneWindows <- 
+        countWindows[c(1, which(countWindows$gene %in% selectedGenes)),]
     geneWindowsPaste <- paste(geneWindows$chromosome, geneWindows$start,
                                 geneWindows$end, sep="_")
     plotData <- as.matrix(result@normalizedData)[geneWindowsPaste,]
     geneWindowsData <- geneWindows[which(geneWindowsPaste %in%
                                             rownames(plotData)),]
-    genes <- geneWindowsData$gene
-    exons <- sapply(strsplit(geneWindowsData[,4], "[.]"), "[[", 2)
+    genes <- geneWindowsData$gene[-1]
+    exons <- sapply(strsplit(geneWindowsData[,4], "[.]"), "[[", 2)[-1]
 
 
     startLabels <- paste(exons, " (", 1:length(exons), ")")
@@ -74,22 +79,25 @@ plotBoxplot <- function(result, sampleName, countWindows, selectedGenes = NULL,
     m <- length(sampleName)
     n <- ncol(plotData)
 
-    ylim <- c(0, max(plotData[exonRange[1]:exonRange[2],]))
+    ylim <- c(0, (max(plotData[(exonRange[1]+1):(exonRange[2]+1),]))*ylimup)
 
-    if (showLegend) {
-        #par(mar=c(5.1, 4.1, 4.1, 16.1), xpd=NA)
-        #par(xpd=T, mar=par()$mar+c(0,0,length(filelist),0))
-        ylim <- ylim*1.05
+    if (abs(exonRange[2]-exonRange[1]) > 1) {
+        boxplot(t(plotData[(exonRange[1]+1):(exonRange[2]+1),]), ylim=ylim, 
+                xaxt="n", ylab="normalized read counts", bty='L', 
+                main=unlist(selectedGenes))
+    } else {
+        boxplot(plotData[(exonRange[1]+1):(exonRange[2]+1),], ylim=ylim, 
+                xaxt="n", ylab="normalized read counts", bty='L', 
+                main=unlist(selectedGenes))
     }
+    
+    
 
-    boxplot(t(plotData[exonRange[1]:exonRange[2],]), ylim=ylim, xaxt="n",
-            ylab="normalized read counts", bty='L', main=unlist(selectedGenes))
-
-    axis(1, at=1:(exonRange[2]-exonRange[1]+1),
-            labels=startLabels[exonRange[1]:exonRange[2]], las=2)
+    axis(1, at=1:(abs(exonRange[2]-exonRange[1])+1),
+            labels=startLabels[(exonRange[1]):(exonRange[2])], las=2)
     col_vec <- c(rainbow(m), rep("black", n-m))
     for (j in n:1) {
-        points(plotData[exonRange[1]:exonRange[2],j], col=col_vec[j], pch=19,
+        points(plotData[(exonRange[1]+1):(exonRange[2]+1),j], col=col_vec[j], pch=19,
                 cex=0.5)
     }
 

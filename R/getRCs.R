@@ -11,10 +11,10 @@
 #'                        pattern = ".bed$", full.names = TRUE)
 #' countWindows <- getWindows(bed)
 #' @export
-getWindows <- function(filename,chr=FALSE) {
-    data <- read.csv(filename, sep="\t",header=FALSE)
+getWindows <- function(filename, chr = FALSE) {
+    data <- read.csv(filename, sep="\t", header = FALSE)
     if (ncol(data) < 4) {
-        stop("BED file needs to have gene name in 4th column.")
+        stop("BED file needs to have gene name in 4th column and no header.")
     }
     data <- data[,1:4]
     data$V4 <- as.character(data$V4)
@@ -72,7 +72,7 @@ getWindows <- function(filename,chr=FALSE) {
 
 countBamListInGRanges <- function(bam.files, countWindows, read.width = 150, 
                                     ...){
-    RC_ <- list()
+    RCs <- list()
     GR <- GRanges(countWindows[,1], IRanges(countWindows[,2], 
                                             countWindows[,3]))
 
@@ -85,11 +85,11 @@ countBamListInGRanges <- function(bam.files, countWindows, read.width = 150,
         if (indexed){
             if (read.width == FALSE) {
                 message("get.width")
-                RC_[[i]] <- .countBamInGRanges(bam.file=bam.files[i], GR ,
+                RCs[[i]] <- .countBamInGRanges(bam.file=bam.files[i], GR ,
                                                 min.mapq=1, get.width = TRUE,
                                                 ...)
             } else {
-                RC_[[i]] <- .countBamInGRanges(bam.file=bam.files[i], GR ,
+                RCs[[i]] <- .countBamInGRanges(bam.file=bam.files[i], GR ,
                                                 min.mapq=1, 
                                                 read.width = read.width, ...)
             }
@@ -101,7 +101,7 @@ countBamListInGRanges <- function(bam.files, countWindows, read.width = 150,
     }
 
     message("finished processing samples")
-    M <- matrix(unlist(RC_), nrow=nrow(countWindows))
+    M <- matrix(unlist(RCs), nrow=nrow(countWindows))
 
     if (all(M == 0)) {
         message(paste0("All read counts are 0. Please make sure ",
