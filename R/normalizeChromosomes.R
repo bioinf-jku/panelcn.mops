@@ -55,6 +55,7 @@
 #' X.norm <- normalizeChromosomes(X)
 #' @return A data matrix of normalized read counts with the same dimensions
 #' as the input matrix X.
+#' @importFrom stats density
 #' @author Guenter Klambauer \email{klambauer@@bioinf.jku.at}
 #' @export
 

@@ -19,9 +19,9 @@
 #' sampleNames <- colnames(elementMetadata(test))
 #' selectedGenes <- "ATM"
 #' resulttable <- createResultTable(resultlist = resultlist, XandCB = XandCB, 
-#'                                  countWindows = countWindows, 
-#'                                  selectedGenes = selectedGenes, 
-#'                                  sampleNames = sampleNames)
+#'                                     countWindows = countWindows, 
+#'                                     selectedGenes = selectedGenes, 
+#'                                     sampleNames = sampleNames)
 #' @export
 createResultTable <- function(resultlist, XandCB, countWindows,
                                 selectedGenes = NULL, sampleNames){

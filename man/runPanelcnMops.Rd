@@ -5,9 +5,9 @@
 \title{wrapper to run panelcn.mops with quality control}
 \usage{
 runPanelcnMops(XandCB, testiv = c(1), countWindows, selectedGenes = NULL,
-  I = c(0.025, 0.57, 1, 1.46, 2), normType = "quant",
-  sizeFactor = "quant", qu = 0.25, quSizeFactor = 0.75, norm = 1,
-  priorImpact = 1, minMedianRC = 30, gender = "mixed")
+    I = c(0.025, 0.57, 1, 1.46, 2), normType = "quant",
+    sizeFactor = "quant", qu = 0.25, quSizeFactor = 0.75, norm = 1,
+    priorImpact = 1, minMedianRC = 30, maxControls = 25, gender = "mixed")
 }
 \arguments{
 \item{XandCB}{GRanges object of combined  read counts of test samples and
@@ -24,23 +24,23 @@ genes are of interest. Default = NULL}
 \item{I}{vector of positive real values containing the expected fold change
 of the copy number classes. Length of this vector must be equal to the
 length of the "classes" parameter vector. For targeted NGS panel data
-the default is c(0.025,0.57,1,1.46,2).}
+the default is c(0.025,0.57,1,1.46,2)}
 
 \item{normType}{type of the normalization technique. Each samples'
 read counts are scaled such that the total number of reads are comparable
-across samples. Options are "mean","median","poisson", "quant", and "mode".
-Default = "quant".}
+across samples. Options are "mean","median","poisson", "quant", and "mode"
+Default = "quant"}
 
 \item{sizeFactor}{parameter for calculating the size factors for
 normalization. Options are "mean","median", "quant", and "mode".
-Default = "quant".}
+Default = "quant"}
 
 \item{qu}{Quantile of the normType if normType is set to "quant".
-Real value between 0 and 1. Default = 0.25.}
+Real value between 0 and 1. Default = 0.25}
 
 \item{quSizeFactor}{Quantile of the sizeFactor if sizeFactor is set to
 "quant". 0.75 corresponds to "upper quartile normalization".
-Real value between 0 and 1. Default = 0.75.}
+Real value between 0 and 1. Default = 0.75}
 
 \item{norm}{the normalization strategy to be used. If set to 0 the read
 counts are not normalized and cn.mops does not model different coverages.
@@ -49,10 +49,13 @@ not normalized and cn.mops models different coverages. Default = 1.}
 
 \item{priorImpact}{positive real value that reflects how strong the prior
 assumption affects the result. The higher the value the more samples will be
-assumed to have copy number 2. Default = 1.}
+assumed to have copy number 2. Default = 1}
 
 \item{minMedianRC}{segments with median read counts over
 all samples < minMedianRC are excluded from the analysis}
+
+\item{maxControls}{integer reflecting the maximal numbers of controls to 
+use. If set to 0 all highly correlated controls are used. Default = 25}
 
 \item{gender}{either "mixed", "male", or "female" reflecting the gender of
 all samples (test and control)}
@@ -67,7 +70,7 @@ wrapper to run panelcn.mops with quality control
 data(panelcn.mops)
 XandCB <- test
 elementMetadata(XandCB) <- cbind(elementMetadata(XandCB), 
-                                 elementMetadata(control))
+                                    elementMetadata(control))
 resultlist <- runPanelcnMops(XandCB, countWindows = countWindows)
 }
 

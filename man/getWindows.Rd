@@ -22,7 +22,7 @@ Convert BED file into data.frame of count windows
 }
 \examples{
 bed <- list.files(system.file("extdata", package = "panelcn.mops"),
-                       pattern = ".bed$", full.names = TRUE)
+                        pattern = ".bed$", full.names = TRUE)
 countWindows <- getWindows(bed)
 }
 

@@ -26,11 +26,11 @@ Get read counts for a list of BAM files and given count windows
 }
 \examples{
 bed <- list.files(system.file("extdata", package = "panelcn.mops"),
-                     pattern = ".bed$", full.names = TRUE)
+                    pattern = ".bed$", full.names = TRUE)
 countWindows <- getWindows(bed)
 testbam <- list.files(system.file("extdata", package = "panelcn.mops"),
 pattern = ".bam$", full.names = TRUE)
 test <- countBamListInGRanges(countWindows = countWindows,
-                              bam.files = testbam, read.width = 150)
+                                bam.files = testbam, read.width = 150)
 }
 

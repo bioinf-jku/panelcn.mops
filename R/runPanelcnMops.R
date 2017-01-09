@@ -43,7 +43,7 @@
 #' data(panelcn.mops)
 #' XandCB <- test
 #' elementMetadata(XandCB) <- cbind(elementMetadata(XandCB), 
-#'                                  elementMetadata(control))
+#'                                     elementMetadata(control))
 #' resultlist <- runPanelcnMops(XandCB, countWindows = countWindows)
 #' @export
 runPanelcnMops <- function(XandCB, testiv = c(1), countWindows, 

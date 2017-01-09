@@ -8,8 +8,9 @@
 #' gene name and exon name column
 #' @examples
 #' bed <- list.files(system.file("extdata", package = "panelcn.mops"),
-#'                        pattern = ".bed$", full.names = TRUE)
+#'                         pattern = ".bed$", full.names = TRUE)
 #' countWindows <- getWindows(bed)
+#' @importFrom utils read.csv
 #' @export
 getWindows <- function(filename, chr = FALSE) {
     data <- read.csv(filename, sep="\t", header = FALSE)
@@ -63,12 +64,12 @@ getWindows <- function(filename, chr = FALSE) {
 #' @importFrom Rsamtools scanBam
 #' @examples
 #' bed <- list.files(system.file("extdata", package = "panelcn.mops"),
-#'                      pattern = ".bed$", full.names = TRUE)
+#'                     pattern = ".bed$", full.names = TRUE)
 #' countWindows <- getWindows(bed)
 #' testbam <- list.files(system.file("extdata", package = "panelcn.mops"),
 #' pattern = ".bam$", full.names = TRUE)
 #' test <- countBamListInGRanges(countWindows = countWindows,
-#'                               bam.files = testbam, read.width = 150)
+#'                                 bam.files = testbam, read.width = 150)
 
 countBamListInGRanges <- function(bam.files, countWindows, read.width = 150, 
                                     ...){
@@ -129,7 +130,7 @@ countBamListInGRanges <- function(bam.files, countWindows, read.width = 150,
         seq.names <- substr(seq.names, 4, nchar(seq.names))
         GenomeInfoDb::seqlevels(granges) <- 
             substr(GenomeInfoDb::seqlevels(granges), 4, 
-                   nchar(GenomeInfoDb::seqlevels(granges)))
+                    nchar(GenomeInfoDb::seqlevels(granges)))
     } else if ((sum(grepl(pattern = '^chr', seq.names.in.bam)) > 0) &&
         (sum(grepl(pattern = '^chr', seq.names)) == 0)) {
         warning('BAM contains chr prefix to the chromosome name but

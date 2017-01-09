@@ -6,7 +6,7 @@
 genes of interest}
 \usage{
 createResultTable(resultlist, XandCB, countWindows, selectedGenes = NULL,
-  sampleNames)
+    sampleNames)
 }
 \arguments{
 \item{resultlist}{result object of runPanelcnMops}
@@ -38,8 +38,8 @@ elementMetadata(XandCB) <- cbind(elementMetadata(XandCB),
 sampleNames <- colnames(elementMetadata(test))
 selectedGenes <- "ATM"
 resulttable <- createResultTable(resultlist = resultlist, XandCB = XandCB, 
-                                 countWindows = countWindows, 
-                                 selectedGenes = selectedGenes, 
-                                 sampleNames = sampleNames)
+                                    countWindows = countWindows, 
+                                    selectedGenes = selectedGenes, 
+                                    sampleNames = sampleNames)
 }
 

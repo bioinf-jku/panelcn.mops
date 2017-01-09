@@ -19,8 +19,10 @@
 #' sampleNames <- colnames(elementMetadata(test))
 #' selectedGenes <- "ATM"
 #' plotBoxplot(result = resultlist[[1]], sampleName = sampleNames[1], 
-#'            countWindows = countWindows, selectedGenes = selectedGenes, 
-#'            showGene = 1)
+#'             countWindows = countWindows, selectedGenes = selectedGenes, 
+#'             showGene = 1)
+#' @importFrom graphics points axis boxplot legend
+#' @importFrom grDevices rainbow
 #' @export
 plotBoxplot <- function(result, sampleName, countWindows, selectedGenes = NULL,
                         showGene = 1, showLegend = TRUE, exonRange = NULL, 
@@ -97,8 +99,8 @@ plotBoxplot <- function(result, sampleName, countWindows, selectedGenes = NULL,
             labels=startLabels[(exonRange[1]):(exonRange[2])], las=2)
     col_vec <- c(rainbow(m), rep("black", n-m))
     for (j in n:1) {
-        points(plotData[(exonRange[1]+1):(exonRange[2]+1),j], col=col_vec[j], pch=19,
-                cex=0.5)
+        points(plotData[(exonRange[1]+1):(exonRange[2]+1),j], col=col_vec[j], 
+                pch=19, cex=0.5)
     }
 
     if (showLegend) {

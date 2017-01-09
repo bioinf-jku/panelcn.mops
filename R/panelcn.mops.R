@@ -50,11 +50,13 @@
 #' memory. Default = TRUE.
 #' @return an instance of "CNVDetectionResult".
 #' @importFrom GenomeInfoDb sortSeqlevels
+#' @importFrom methods new
+#' @importFrom graphics boxplot
 #' @examples
 #' data(panelcn.mops)
 #' XandCB <- test
 #' elementMetadata(XandCB) <- cbind(elementMetadata(XandCB), 
-#'                                  elementMetadata(control))
+#'                                     elementMetadata(control))
 #' result <- panelcn.mops(XandCB)
 
 #' @export
@@ -168,8 +170,8 @@ panelcn.mops <- function(input, testi = 1, geneInd=NULL,
     if (!(is.numeric(maxControls) & maxControls > 0 & length(maxControls)==1)) {
         stop("\"maxControls\" must be numeric, larger than 0 and of length 1.")
     } else {
-		message(paste0("\"maxControls\" is set to ", maxControls))
-	}
+        message(paste0("\"maxControls\" is set to ", maxControls))
+    }
     
     if (!(is.numeric(minReadCount) & length(minReadCount)==1))
         stop("\"minReadCount\" must be numeric and of length 1.")
