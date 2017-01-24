@@ -67,8 +67,19 @@ runPanelcnMops <- function(XandCB, testiv = c(1), countWindows,
         message("All genes selected.")
         selectedGenes <- c()
     }
-    
-    
+	
+	geneInd <- c()
+    for (g in selectedGenes) {
+        geneIndTemp <- which(countWindows$gene==g)
+		if (length(geneIndTemp) == 0) {
+			message(paste0("Gene ", g, " not in \"countWindows\""))
+		}
+        geneInd <- c(geneInd, geneIndTemp)
+    }
+	
+	if (length(geneInd) == 0) {
+		stop("At least one of the \"selectedGenes\" needs to be in \"countWindows\".")
+	}
     
     sampleNames <- colnames(XandCB@elementMetadata)
     message(paste0("Analyzing sample(s) ", sampleNames[testiv], "\n"))
@@ -142,13 +153,6 @@ runPanelcnMops <- function(XandCB, testiv = c(1), countWindows,
         message(paste("Bad test sample", sampleNames[poorTestSamples], "\n"))
     }
     poorSamples <- poorDBSamples
-
-    geneInd <- c()
-    for (g in selectedGenes) {
-        geneIndTemp <- which(countWindows$gene==g)
-        geneInd <- c(geneInd, geneIndTemp)
-    }
-    
 
     if (length(poorSamples) > 0) {
         XandCB <- XandCB[,-poorSamples]
