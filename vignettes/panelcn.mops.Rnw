@@ -302,7 +302,10 @@ overlapping bins. This can be achieved with the funciton \verb+splitROIs+:
 splitROIs(bed, "newBed.bed")
 @
 
-
+By default all ROIs are split into bins of 100 bp with an overlap of 50 bp. 
+The parameter {\tt limit} controls the minimum size of the ROIs that should be 
+split (default = 0). The parameters {\tt bin} and {\tt shift} control the size 
+of the bins and the no. of bp between start positions of adjacent bins.
 
 \section{runPanelcnMops}
 \label{s:panelcn.mops}
