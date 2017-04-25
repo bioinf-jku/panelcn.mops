@@ -13,7 +13,7 @@ splitROIs(oldBedFile, newBedFile, limit = 0, bin = 100, shift = 50,
 (structure of BED file without header: chromosome, exon start, exon end,
 exon name)}
 
-\item{newBedFile}{filenameof the new BED file that should be created}
+\item{newBedFile}{filename of the new BED file that should be created}
 
 \item{limit}{ROIs larger than limit will be split}
 

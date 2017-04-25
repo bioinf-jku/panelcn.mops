@@ -228,7 +228,7 @@ countBamListInGRanges <- function(bam.files, countWindows, read.width = 150,
 #' @param oldBedFile filename of the BED file with absolute or relative path
 #' (structure of BED file without header: chromosome, exon start, exon end,
 #' exon name)
-#' @param newBedFile filenameof the new BED file that should be created
+#' @param newBedFile filename of the new BED file that should be created
 #' @param limit ROIs larger than limit will be split
 #' @param bin size of bins (in bp) the ROIs will be split into
 #' @param shift no. of bp between start positions of adjacent bins 
@@ -272,7 +272,8 @@ splitROIs <- function(oldBedFile, newBedFile, limit = 0, bin = 100, shift = 50,
 
     for (i in 1:nrow(windows)) {
     cw_row <- windows[i,]
-    if ((cw_row$end - cw_row$start) > limit & (cw_row$end - cw_row$start) > bin) {
+    if ((cw_row$end - cw_row$start) > limit & 
+        (cw_row$end - cw_row$start) > bin) {
         starts <- c(starts, seq(cw_row$start, (cw_row$end - bin + 1), shift))
         ends <- c(ends, seq((cw_row$start + bin - 1), cw_row$end, shift))
         
