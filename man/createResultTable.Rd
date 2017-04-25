@@ -2,11 +2,11 @@
 % Please edit documentation in R/output.R
 \name{createResultTable}
 \alias{createResultTable}
-\title{creates a user readable result table for the test samples of the
+\title{Creates a user readable result table for the test samples of the
 genes of interest}
 \usage{
 createResultTable(resultlist, XandCB, countWindows, selectedGenes = NULL,
-    sampleNames)
+  sampleNames)
 }
 \arguments{
 \item{resultlist}{result object of runPanelcnMops}
@@ -27,7 +27,7 @@ a data.frame containing the results for the test samples within the
 genes of interest
 }
 \description{
-creates a user readable result table for the test samples of the
+Creates a user readable result table for the test samples of the
 genes of interest
 }
 \examples{
@@ -42,4 +42,3 @@ resulttable <- createResultTable(resultlist = resultlist, XandCB = XandCB,
                                     selectedGenes = selectedGenes, 
                                     sampleNames = sampleNames)
 }
-

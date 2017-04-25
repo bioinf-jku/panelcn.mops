@@ -141,6 +141,7 @@ countBamListInGRanges <- function(bam.files, countWindows, read.width = 150,
     }
 
     for (seq.name in seq.names) {
+        print(seq.name)
         if (seq.name %in% seq.names.in.bam) {
             granges.subset <-
                 granges[GenomicRanges::seqnames(granges) == seq.name]
@@ -219,4 +220,87 @@ countBamListInGRanges <- function(bam.files, countWindows, read.width = 150,
     }
     rds.counts
 }
+
+
+#' Split (larger) ROIs into multiple smaller (overlapping) bins and create 
+#' new BED file
+#' 
+#' @param oldBedFile filename of the BED file with absolute or relative path
+#' (structure of BED file without header: chromosome, exon start, exon end,
+#' exon name)
+#' @param newBedFile filenameof the new BED file that should be created
+#' @param limit ROIs larger than limit will be split
+#' @param bin size of bins (in bp) the ROIs will be split into
+#' @param shift no. of bp between start positions of adjacent bins 
+#' @param chr indicates whether naming contains chr prefix
+#' @return generates a new BED file with (larger) ROIs split into smaller bins
+#' @export
+#' @examples
+#' bed <- list.files(system.file("extdata", package = "panelcn.mops"),
+#'                     pattern = ".bed$", full.names = TRUE)
+#' splitROIs(bed, "newBed.bed")
+
+
+splitROIs <- function(oldBedFile, newBedFile, limit = 0, bin = 100, shift = 50, 
+                        chr = FALSE) {
+  
+    message(paste("reading from bedFile", basename(oldBedFile)))
+
+    windows <- getWindows(oldBedFile, chr)
+
+    
+    message(paste("No. of original ROIs:", nrow(windows)))
+    
+    if (bin==-1 && shift==-1) {
+    return(windows)
+    }
+
+    starts <- c()
+    ends <- c()
+    chrom <- c()
+    exon <- c()
+    geneName <- c()
+
+    for (i in 1:nrow(windows)) {
+    cw_row <- windows[i,]
+    if ((cw_row$end - cw_row$start) > limit & (cw_row$end - cw_row$start) > bin) {
+        starts <- c(starts, seq(cw_row$start, (cw_row$end - bin + 1), shift))
+        ends <- c(ends, seq((cw_row$start + bin - 1), cw_row$end, shift))
+        
+        diff <- ends[length(ends)]-cw_row$end
+        if (diff != 0) {
+          stopifnot(diff < 0)
+          ends[length(ends)] <- cw_row$end
+        }
+        nrows <- length(ends)-length(chrom)
+        chrom <- c(chrom, rep(cw_row$chrom, nrows))
+        geneName <- c(geneName, rep(cw_row$gene, nrows))
+        exon <- c(exon, rep(cw_row$exon, nrows))
+    } else {
+        starts <- c(starts, cw_row$start)
+        ends <- c(ends, cw_row$end)
+        
+        chrom <- c(chrom, cw_row$chrom)
+        geneName <- c(geneName, cw_row$gene)
+        exon <- c(exon, cw_row$exon)
+    }
+    }
+
+    if (sum(grepl(pattern = '^chr', chrom)) == 0) {
+      chromn <- paste0("chr", chrom)
+    } else {
+      chromn <- chrom
+    }
+
+    geneName <- paste(geneName, exon, chromn, starts, ends, sep = ".")
+    message(paste("Created", length(chrom), "ROIs"))
+
+    windows <- data.frame(chrom = chrom, start = starts, end = ends, 
+                            name = geneName, stringsAsFactors = FALSE)
+
+    write.table(windows, file = newBedFile, sep = "\t", quote = FALSE, 
+                col.names = FALSE, row.names = FALSE)
+
+}
+
 

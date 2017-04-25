@@ -5,9 +5,9 @@
 \title{wrapper to run panelcn.mops with quality control}
 \usage{
 runPanelcnMops(XandCB, testiv = c(1), countWindows, selectedGenes = NULL,
-    I = c(0.025, 0.57, 1, 1.46, 2), normType = "quant",
-    sizeFactor = "quant", qu = 0.25, quSizeFactor = 0.75, norm = 1,
-    priorImpact = 1, minMedianRC = 30, maxControls = 25, gender = "mixed")
+  I = c(0.025, 0.57, 1, 1.46, 2), normType = "quant",
+  sizeFactor = "quant", qu = 0.25, quSizeFactor = 0.75, norm = 1,
+  priorImpact = 1, minMedianRC = 30, maxControls = 25, gender = "mixed")
 }
 \arguments{
 \item{XandCB}{GRanges object of combined  read counts of test samples and
@@ -73,4 +73,3 @@ elementMetadata(XandCB) <- cbind(elementMetadata(XandCB),
                                     elementMetadata(control))
 resultlist <- runPanelcnMops(XandCB, countWindows = countWindows)
 }
-

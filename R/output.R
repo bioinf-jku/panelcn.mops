@@ -1,4 +1,4 @@
-#' creates a user readable result table for the test samples of the
+#' Creates a user readable result table for the test samples of the
 #' genes of interest
 #'
 #' @param resultlist result object of runPanelcnMops

@@ -33,4 +33,3 @@ pattern = ".bam$", full.names = TRUE)
 test <- countBamListInGRanges(countWindows = countWindows,
                                 bam.files = testbam, read.width = 150)
 }
-

@@ -5,7 +5,7 @@
 \title{Create box plot of normalized read counts}
 \usage{
 plotBoxplot(result, sampleName, countWindows, selectedGenes = NULL,
-    showGene = 1, showLegend = TRUE, exonRange = NULL, ylimup = 1.15)
+  showGene = 1, showLegend = TRUE, exonRange = NULL, ylimup = 1.15)
 }
 \arguments{
 \item{result}{result object of panelcn.mops}
@@ -43,4 +43,3 @@ plotBoxplot(result = resultlist[[1]], sampleName = sampleNames[1],
             countWindows = countWindows, selectedGenes = selectedGenes, 
             showGene = 1)
 }
-

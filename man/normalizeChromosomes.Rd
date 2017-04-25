@@ -5,7 +5,7 @@
 \title{Normalization of NGS data.}
 \usage{
 normalizeChromosomes(X, chr, normType = "poisson", sizeFactor = "mean",
-    qu = 0.25, quSizeFactor = 0.75, ploidy)
+  qu = 0.25, quSizeFactor = 0.75, ploidy)
 }
 \arguments{
 \item{X}{Matrix of positive real values, where columns are interpreted as
@@ -59,4 +59,3 @@ X.norm <- normalizeChromosomes(X)
 \author{
 Guenter Klambauer \email{klambauer@bioinf.jku.at}
 }
-

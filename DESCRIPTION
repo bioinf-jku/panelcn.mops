@@ -1,7 +1,7 @@
 Package: panelcn.mops
 Type: Package
 Title: CNV detection tool for targeted NGS panel data
-Version: 0.1.14
+Version: 0.1.15
 Date: 2017-01-05
 Author: Verena Haunschmid, Gundula Povysil
 Maintainer: Gundula Povysil <povysil@bioinf.jku.at>
@@ -12,7 +12,7 @@ LazyData: TRUE
 Imports: GenomicRanges, Rsamtools, IRanges, S4Vectors, GenomeInfoDb, methods, grDevices, graphics, stats, utils
 Depends: R (>= 3.0), cn.mops
 biocViews: Sequencing, CopyNumberVariation, CellBiology, GenomicVariation, VariantDetection, Genetics
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1
 NeedsCompilation: no
 Packaged: 2016-02-22 10:01:34 UTC; gk
 Suggests: knitr,

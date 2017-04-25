@@ -12,4 +12,3 @@ Control data included in panelcn.mops
 Gundula Povysil
 }
 \keyword{data}
-

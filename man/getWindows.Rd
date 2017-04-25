@@ -25,4 +25,3 @@ bed <- list.files(system.file("extdata", package = "panelcn.mops"),
                         pattern = ".bed$", full.names = TRUE)
 countWindows <- getWindows(bed)
 }
-
