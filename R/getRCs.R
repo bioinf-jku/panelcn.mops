@@ -244,16 +244,25 @@ countBamListInGRanges <- function(bam.files, countWindows, read.width = 150,
 splitROIs <- function(oldBedFile, newBedFile, limit = 0, bin = 100, shift = 50, 
                         chr = FALSE) {
   
+    if (!(is.numeric(limit) & limit >= 0 & length(limit)==1)) {
+        stop("\"limit\" must be numeric, larger or equal 0 and of length 1.")
+    }
+    
+    if (!(is.numeric(bin) & bin > 0 & length(bin)==1)) {
+        stop("\"bin\" must be numeric, larger than 0 and of length 1.")
+    }
+    
+    if (!(is.numeric(shift) & shift > 0 & length(shift)==1)) {
+        stop("\"shift\" must be numeric, larger than 0 and of length 1.")
+    }
+    
     message(paste("reading from bedFile", basename(oldBedFile)))
 
     windows <- getWindows(oldBedFile, chr)
-
+    
     
     message(paste("No. of original ROIs:", nrow(windows)))
     
-    if (bin==-1 && shift==-1) {
-    return(windows)
-    }
 
     starts <- c()
     ends <- c()
@@ -267,12 +276,12 @@ splitROIs <- function(oldBedFile, newBedFile, limit = 0, bin = 100, shift = 50,
         starts <- c(starts, seq(cw_row$start, (cw_row$end - bin + 1), shift))
         ends <- c(ends, seq((cw_row$start + bin - 1), cw_row$end, shift))
         
-        diff <- ends[length(ends)]-cw_row$end
+        diff <- ends[length(ends)] - cw_row$end
         if (diff != 0) {
           stopifnot(diff < 0)
           ends[length(ends)] <- cw_row$end
         }
-        nrows <- length(ends)-length(chrom)
+        nrows <- length(ends) - length(chrom)
         chrom <- c(chrom, rep(cw_row$chrom, nrows))
         geneName <- c(geneName, rep(cw_row$gene, nrows))
         exon <- c(exon, rep(cw_row$exon, nrows))
