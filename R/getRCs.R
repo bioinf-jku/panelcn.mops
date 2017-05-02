@@ -17,6 +17,10 @@ getWindows <- function(filename, chr = FALSE) {
     if (ncol(data) < 4 || is.na(data[1,2])) {
         stop("BED file needs to have gene name in 4th column and no header.")
     }
+    if (!is.numeric(data$V2) || !is.numeric(data$V3)) {
+        stop(paste0("2nd and 3rd column of BED file need to be numeric. ",
+                "Make sure all columns are separated by tabs."))
+    }
     data <- data[,1:4]
     data$V4 <- as.character(data$V4)
     data$V1 <- as.character(data$V1)

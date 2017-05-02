@@ -61,14 +61,16 @@ createResultTable <- function(resultlist, XandCB, countWindows,
         
         ## seqnames
         tempTable$seqnames <- as.character(tempTable$seqnames)
-       
+#        tempTable$seqnames <- gsub("chr", "", tempTable$seqnames)
+
         ## sampleNames
         # message("before sample name selection...")
         tempTable$sampleName <- as.character(tempTable$sampleName)
         # GRanges adds X to sampleNames that start with number
-        tmpNames <- c(paste("X",sampleNames, sep=""), sampleNames)
+        tmpNames <- c(paste("X", sampleNames, sep=""), sampleNames)
         tmpRows <- which(tempTable$sampleName %in% tmpNames)
-
+        message(paste(tmpNames, "\n"))
+        message(unique(tempTable$sampleName))
         tempTable <- tempTable[tmpRows,]
         
         tmpCols <- which(colnames(cn) %in% tmpNames)
@@ -112,13 +114,16 @@ createResultTable <- function(resultlist, XandCB, countWindows,
         ## select by gene
         geneWindows <- countWindows[which(countWindows$gene %in% 
                                                 selectedGenes),]
+        
+#        geneWindows$chromosome <- gsub("chr", "", geneWindows$chromosome)
+
         tempTable <- tempTable[which(paste(tempTable$seqnames,
                                             tempTable$start, 
                                             tempTable$end, sep="_") %in%
                                     paste(geneWindows$chromosome, 
                                             geneWindows$start, geneWindows$end,
                                             sep="_")),]
-
+        
         ## used in function
         medianRC <- apply(as.matrix(XandCB@elementMetadata), 1, median)
         medianRCNorm <- apply(as.matrix(result@normalizedData), 1, median)

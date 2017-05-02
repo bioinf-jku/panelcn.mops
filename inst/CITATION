@@ -1,0 +1,32 @@
+citHeader("To cite package 'panelcn.mops' in publications use:")
+
+citEntry(entry="Article",
+         title="panelcn.MOPS: Copy number detection in targeted NGS panel data for clinical diagnostics",
+         author=personList(as.person("Gundula Povysil"),
+                            as.person("Antigoni Tzika"),
+                            as.person("Julia Vogt"),
+                            as.person("Verena Haunschmid"),
+                            as.person("Ludwine Messiaen"),
+                            as.person("Johannes Zschocke"),         
+                            as.person("Guenter Klambauer"),
+                            as.person("Sepp Hochreiter"),
+                            as.person("Katharina Wimmer")),
+         year="2017",
+         volume="-",
+         pages="-",
+         
+         journal="Human Mutation",
+         organization=paste("Institute of Bioinformatics",
+                            "Johannes Kepler University", sep=", "),
+         doi="doi:10.1002/humu.23237",
+         url="http://onlinelibrary.wiley.com/doi/10.1002/humu.23237/full",
+         textVersion =
+             paste("Gundula Povysil, Antigoni Tzika, Julia Vogt, Verena Haunschmid, Ludwine Messiaen, ",
+                    "Johannes Zschocke, Guenter Klambauer, Sepp Hochreiter, and Katharina Wimmer (2017), ",
+                    "panelcn.MOPS: Copy number detection in targeted NGS panel data for clinical diagnostics. ", 
+                    "Human Mutation. doi:10.1002/humu.23237.",sep="")
+         
+         )
+                   
+citFooter("To obtain the references in BibTex format, enter",
+          "'toBibtex(citation(\"panelcn.mops\"))'")
