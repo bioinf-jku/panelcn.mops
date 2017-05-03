@@ -145,7 +145,6 @@ countBamListInGRanges <- function(bam.files, countWindows, read.width = 150,
     }
 
     for (seq.name in seq.names) {
-        print(seq.name)
         if (seq.name %in% seq.names.in.bam) {
             granges.subset <-
                 granges[GenomicRanges::seqnames(granges) == seq.name]
