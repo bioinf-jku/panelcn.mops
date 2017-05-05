@@ -34,7 +34,7 @@
 #' all samples < minMedianRC are excluded from the analysis
 #' @param maxControls integer reflecting the maximal numbers of controls to 
 #' use. If set to 0 all highly correlated controls are used. Default = 25
-#' @param gender either "mixed", "male", or "female" reflecting the gender of
+#' @param sex either "mixed", "male", or "female" reflecting the sex of
 #' all samples (test and control)
 #' @return list of instances of "CNVDetectionResult"
 #' @import S4Vectors
@@ -53,14 +53,14 @@ runPanelcnMops <- function(XandCB, testiv = c(1), countWindows,
                             qu = 0.25, quSizeFactor = 0.75,
                             norm = 1, priorImpact = 1, minMedianRC = 30, 
                             maxControls = 25,
-                            gender="mixed") {
+                            sex = "mixed") {
 
     if (missing(countWindows)) {
         stop("\"countWindows\" need to be specified.")
     }
-    if(!(gender %in% c("mixed", "male", "female"))) {
-        message(paste0("Setting gender=", gender, " not possible - ",
-                        "using gender=\"mixed\""))
+    if(!(sex %in% c("mixed", "male", "female"))) {
+        message(paste0("Setting sex=", sex, " not possible - ",
+                        "using sex=\"mixed\""))
     }
 
     if (is.null(selectedGenes)) {
@@ -99,18 +99,19 @@ runPanelcnMops <- function(XandCB, testiv = c(1), countWindows,
         message(paste("Cannot use exon", countWindows[poorQual,]$name, "\n"))
     }
 
-    XandCBRanges <- XandCB # has to be after last change of XandCB
-
     XChr <- c(which(countWindows$chromosome=="chrX" |
                     countWindows$chromosome=="X"))
 
     if (length(XChr) > 0) {
-        if(gender=="mixed") {
+        if (sex=="mixed") {
             message(paste0("Ignoring X-chromosomal exons ",
-                            "(gender is mixed/unknown).\n"))
+                            "(sex is mixed/unknown).\n"))
         } else {
-            message("Processing of X-chromosome not implemented yet.")
-            message(paste0("Ignoring X-chromosomal exons."))
+            message("All females or all males selected. Chromosome X treated like autosomes.")
+            XChr <- c()
+        }
+        if (sex=="male") {
+            message("Male: Note that CN2 is actually CN1 for chromosome X.")
         }
     }
 
@@ -125,24 +126,25 @@ runPanelcnMops <- function(XandCB, testiv = c(1), countWindows,
     subsetIdx <- rep(TRUE, nrow(countWindows))
     subsetIdx[ignoreExons] <- FALSE
     usedExons <- (1:nrow(countWindows))[-ignoreExons]
-    countWindows <- countWindows[-ignoreExons,]
+    if (length(ignoreExons) > 0) {
+        countWindows <- countWindows[-ignoreExons,]
+    }
     countWindows <- countWindows[order(suppressWarnings(
                         as.numeric(countWindows[,1])), countWindows[,2]),]
-
-	geneInd <- c()
+    geneInd <- c()
     for (g in selectedGenes) {
         geneIndTemp <- which(countWindows$gene==g)
-		if (length(geneIndTemp) == 0) {
-			message(paste0("Gene ", g, " not in \"countWindows\""))
-		}
+        if (length(geneIndTemp) == 0) {
+            message(paste0("Gene ", g, " not in \"countWindows\""))
+        }
         geneInd <- c(geneInd, geneIndTemp)
     }
-	
-	if (length(geneInd) == 0) {
-		stop("At least one of the \"selectedGenes\" needs to be in \"countWindows\".")
-	}
+    
+    if (length(geneInd) == 0) {
+        stop("At least one of the \"selectedGenes\" needs to be in \"countWindows\".")
+    }
 
-	poorDBSamples <- poorSamples[!(poorSamples %in% testiv)]
+    poorDBSamples <- poorSamples[!(poorSamples %in% testiv)]
     poorTestSamples <- poorSamples[poorSamples %in% testiv]
 
 

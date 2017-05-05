@@ -132,5 +132,5 @@ resulttable <- createResultTable(resultlist = resultlist, XandCB = XandCB,
 #              selectedGenes = selectedGenes, showGene = 1)
 
 ## ----eval=FALSE------------------------------------------------
-#  toBibtex(citation("cn.mops"))
+#  toBibtex(citation("panelcn.mops"))
 

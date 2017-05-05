@@ -404,6 +404,16 @@ the name of the test sample, the countWindows used, as well as a vector with
 the names of the genes of interest and an integer specifying which of the 
 genes of interest to plot.
 
+
+\section{Analysis of chromosome X}
+\label{s:chrX}
+The analysis of ROIs on chromosome X is only possible if all samples have the 
+same sex and the parameter sex of the function \verb+runPanelcnMops+ is set 
+accordingly. The default "mixed" results in the removal of all X-chromosomal 
+ROIs. Note, that if all samples are males CN2 in the results really 
+corresponds to CN1.
+
+
 \section{Quality control}
 
 The panelcn.MOPS algorithm includes different quality control metrics. 1) ROIs 
@@ -446,12 +456,12 @@ different normalization parameters: {\tt normType}, {\tt sizeFactor},
 
 If you use this package for research that is published later, you are kindly
 asked to cite it as follows:
-\citep{Klambauer:11}.
+\citep{Povysil:17}.
 
 To obtain Bib\TeX\ entries of the reference, you can enter the following
 into your R session:
 <<eval=FALSE>>=
-toBibtex(citation("cn.mops"))
+toBibtex(citation("panelcn.mops"))
 @
 
 
