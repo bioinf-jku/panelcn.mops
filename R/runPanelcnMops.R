@@ -107,7 +107,8 @@ runPanelcnMops <- function(XandCB, testiv = c(1), countWindows,
             message(paste0("Ignoring X-chromosomal exons ",
                             "(sex is mixed/unknown).\n"))
         } else {
-            message("All females or all males selected. Chromosome X treated like autosomes.")
+            message(paste0("All females or all males selected. ", 
+                            "Chromosome X treated like autosomes."))
             XChr <- c()
         }
         if (sex=="male") {
@@ -131,18 +132,26 @@ runPanelcnMops <- function(XandCB, testiv = c(1), countWindows,
     }
     countWindows <- countWindows[order(suppressWarnings(
                         as.numeric(countWindows[,1])), countWindows[,2]),]
-    geneInd <- c()
-    for (g in selectedGenes) {
-        geneIndTemp <- which(countWindows$gene==g)
-        if (length(geneIndTemp) == 0) {
-            message(paste0("Gene ", g, " not in \"countWindows\""))
+    
+    if (length(selectedGenes) > 0) {
+        geneInd <- c()
+        for (g in selectedGenes) {
+            geneIndTemp <- which(countWindows$gene==g)
+            if (length(geneIndTemp) == 0) {
+                message(paste0("Gene ", g, " not in \"countWindows\""))
+            }
+            geneInd <- c(geneInd, geneIndTemp)
         }
-        geneInd <- c(geneInd, geneIndTemp)
+        
+        
+        if (length(geneInd) == 0) {
+            stop(paste0("At least one of the \"selectedGenes\" needs to be ", 
+                        "in \"countWindows\"."))
+        }
+    } else {
+        geneInd <- NULL
     }
     
-    if (length(geneInd) == 0) {
-        stop("At least one of the \"selectedGenes\" needs to be in \"countWindows\".")
-    }
 
     poorDBSamples <- poorSamples[!(poorSamples %in% testiv)]
     poorTestSamples <- poorSamples[poorSamples %in% testiv]

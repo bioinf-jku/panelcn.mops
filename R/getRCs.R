@@ -237,6 +237,7 @@ countBamListInGRanges <- function(bam.files, countWindows, read.width = 150,
 #' @param shift no. of bp between start positions of adjacent bins 
 #' @param chr indicates whether naming contains chr prefix
 #' @return generates a new BED file with (larger) ROIs split into smaller bins
+#' @importFrom utils write.table
 #' @export
 #' @examples
 #' bed <- list.files(system.file("extdata", package = "panelcn.mops"),
@@ -282,8 +283,8 @@ splitROIs <- function(oldBedFile, newBedFile, limit = 0, bin = 100, shift = 50,
         
         diff <- ends[length(ends)] - cw_row$end
         if (diff != 0) {
-          stopifnot(diff < 0)
-          ends[length(ends)] <- cw_row$end
+            stopifnot(diff < 0)
+            ends[length(ends)] <- cw_row$end
         }
         nrows <- length(ends) - length(chrom)
         chrom <- c(chrom, rep(cw_row$chrom, nrows))
@@ -300,9 +301,9 @@ splitROIs <- function(oldBedFile, newBedFile, limit = 0, bin = 100, shift = 50,
     }
 
     if (sum(grepl(pattern = '^chr', chrom)) == 0) {
-      chromn <- paste0("chr", chrom)
+        chromn <- paste0("chr", chrom)
     } else {
-      chromn <- chrom
+        chromn <- chrom
     }
 
     geneName <- paste(geneName, exon, chromn, starts, ends, sep = ".")
