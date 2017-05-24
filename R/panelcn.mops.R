@@ -49,6 +49,7 @@
 #' times copy number states times genomic regions and therefore consume a lot of
 #' memory. Default = TRUE.
 #' @return an instance of "CNVDetectionResult".
+#' @importFrom cn.mops normalizeChromosomes
 #' @importFrom GenomeInfoDb sortSeqlevels
 #' @importFrom methods new
 #' @importFrom graphics boxplot
