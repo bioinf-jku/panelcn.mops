@@ -5,7 +5,8 @@
 \title{Create box plot of normalized read counts}
 \usage{
 plotBoxplot(result, sampleName, countWindows, selectedGenes = NULL,
-  showGene = 1, showLegend = TRUE, exonRange = NULL, ylimup = 1.15)
+  showGene = 1, showLegend = TRUE, exonRange = NULL, ylimup = 1.15,
+  thresh = 0)
 }
 \arguments{
 \item{result}{result object of panelcn.mops}
@@ -28,6 +29,11 @@ certain range of exons or NULL}
 
 \item{ylimup}{numeric, maximum RC is multiplied by this value to calculate 
 second value of ylim. Default = 1.15}
+
+\item{thresh}{numeric threshhold for plotting fold change areas 
+E.g. thresh = 0.4 plots a green rectangle above (1 + 0.4)*median for each 
+boxplot and a red rectangle below (1 - 0.4)*median. Default of zero does not plot 
+any colored areas.}
 }
 \value{
 generates a boxplot of the normalized read counts

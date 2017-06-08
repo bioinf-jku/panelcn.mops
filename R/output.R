@@ -66,139 +66,147 @@ createResultTable <- function(resultlist, XandCB, countWindows,
         ## sampleNames
         # message("before sample name selection...")
         tempTable$sampleName <- as.character(tempTable$sampleName)
+        tempTable <- tempTable[which(tempTable$sampleName == tempTable$sampleName[1]),]
         # GRanges adds X to sampleNames that start with number
         tmpNames <- c(paste("X", sampleNames, sep=""), sampleNames)
         tmpRows <- which(tempTable$sampleName %in% tmpNames)
-        message(paste(tmpNames, "\n"))
-        message(unique(tempTable$sampleName))
-        tempTable <- tempTable[tmpRows,]
-        
-        tmpCols <- which(colnames(cn) %in% tmpNames)
-        names <- colnames(cn)[tmpCols]
-        cn <- as.data.frame(cn[,tmpCols])
-        colnames(cn) <- names
-        
-        ## RC and median RC
-        # message("before rc...")
-        RC <- rep(NA, nrow(tempTable))
-        medianRC <- rep(NA, nrow(tempTable))
-        RC.norm <- rep(NA, nrow(tempTable))
-        medianRC.norm <- rep(NA, nrow(tempTable))
-
-        ## genes and exons
-        genes <- rep(NA, nrow(tempTable))
-        exons <- rep(NA, nrow(tempTable))
-        #exonsPerGenes <- aggregate(name ~ gene, data=countWindows, length)
-        exonNr <- rep(0, nrow(tempTable))
-
-        ## low Qual
-        lowQ <- rep(NA, nrow(tempTable))
-        badexi <- result@params$badROI
-        badexn <- row.names(result@normalizedData)[badexi]
-        
-        ##build initial table
-        message("Building table...")
-        tempTable <- data.frame(tempTable, genes, exonNr, exons, RC, medianRC,
-                                RC.norm, medianRC.norm, lowQ)
-
-        ##get starts in order of normalized matrix -- order is different
-        normDataStarts <- as.numeric(sapply(strsplit(
-                            row.names(result@normalizedData), "[_]"), "[[", 2))
-        normDataEnds <- as.numeric(sapply(strsplit(
-            row.names(result@normalizedData), "[_]"), "[[", 3))
-        
-
-        ## nrExons
-        nrExons <- nrow(tempTable) / length(unique(tempTable$sampleName))
-
-        ## select by gene
-        geneWindows <- countWindows[which(countWindows$gene %in% 
-                                                selectedGenes),]
-        
-#        geneWindows$chromosome <- gsub("chr", "", geneWindows$chromosome)
-
-        tempTable <- tempTable[which(paste(tempTable$seqnames,
-                                            tempTable$start, 
-                                            tempTable$end, sep="_") %in%
-                                    paste(geneWindows$chromosome, 
-                                            geneWindows$start, geneWindows$end,
-                                            sep="_")),]
-        
-        ## used in function
-        medianRC <- apply(as.matrix(XandCB@elementMetadata), 1, median)
-        medianRCNorm <- apply(as.matrix(result@normalizedData), 1, median)
-
-        for (i in 1:nrow(tempTable)) {
-            chr <- tempTable[i,]$seqnames
-            start <- tempTable[i,]$start
-            end <- tempTable[i,]$end
-            startEnd <- paste(start, end, sep="_")
+#        message(paste(tmpNames, "\n"))
+        if (length(tmpRows) > 0) {
+            tempTable <- tempTable[tmpRows,]
+            message(paste(unique(tempTable$sampleName), "\n"))
             
-            currSample <- tempTable[i,]$sampleName
-
-            gw.row <- geneWindows[which(paste(geneWindows$chromosome,
-                                            geneWindows$start, 
-                                            geneWindows$end, sep="_") ==
-                                        paste(chr, start, end, sep="_")),]
-
-            tempTable[i,]$genes <- gw.row[,5]
-            tempTable[i,]$exons <- gw.row[,4]
-
-            tempTable[i,]$RC <- XandCB[which(paste(start(XandCB), end(XandCB), 
-                                                    sep="_") == startEnd),
-                                        which(colnames(XandCB@elementMetadata) 
-                                            == currSample)]@elementMetadata[1,1]
-            tempTable[i,]$medianRC <- medianRC[which(paste(start(XandCB), 
-                                                        end(XandCB), sep="_") 
-                                                    == startEnd)]
-
-            tempTable[i,]$RC.norm <-
-                round(result@normalizedData[which(paste(normDataStarts, 
-                                                        normDataEnds, sep="_") 
-                                                    == startEnd),
-                            which(colnames(result@normalizedData)==currSample)])
-            tempTable[i,]$medianRC.norm <-
-                round(medianRCNorm[which(paste(normDataStarts, normDataEnds, 
-                                                sep="_") == startEnd)])
-
-            tempTable[i,]$exonNr <- gw.row$exon
+            tmpCols <- which(colnames(cn) %in% tmpNames)
+            names <- colnames(cn)[tmpCols]
+            cn <- as.data.frame(cn[,tmpCols])
+            colnames(cn) <- names
             
-            postSeg <- paste(gw.row$chromosome, gw.row$start, gw.row$end, 
-                                sep="_")
-            ccn <- as.character(cn[postSeg, currSample])
-            tempTable[i,]$CN <- ccn
+            ## RC and median RC
+            # message("before rc...")
+            RC <- rep(NA, nrow(tempTable))
+            medianRC <- rep(NA, nrow(tempTable))
+            RC.norm <- rep(NA, nrow(tempTable))
+            medianRC.norm <- rep(NA, nrow(tempTable))
             
-            if (postSeg %in% badexn) {
-                tempTable[i,]$lowQ <- "lowQual"
-            } else {
-                tempTable[i,]$lowQ <- ""
+            ## genes and exons
+            genes <- rep(NA, nrow(tempTable))
+            exons <- rep(NA, nrow(tempTable))
+            #exonsPerGenes <- aggregate(name ~ gene, data=countWindows, length)
+            exonNr <- rep(0, nrow(tempTable))
+            
+            ## low Qual
+            lowQ <- rep(NA, nrow(tempTable))
+            badexi <- result@params$badROI
+            badexn <- row.names(result@normalizedData)[badexi]
+            
+            ##build initial table
+            message("Building table...")
+            tempTable <- data.frame(tempTable, genes, exonNr, exons, RC, medianRC,
+                                    RC.norm, medianRC.norm, lowQ)
+            
+            ##get starts in order of normalized matrix -- order is different
+            normDataStarts <- as.numeric(sapply(strsplit(
+                row.names(result@normalizedData), "[_]"), "[[", 2))
+            normDataEnds <- as.numeric(sapply(strsplit(
+                row.names(result@normalizedData), "[_]"), "[[", 3))
+            
+            
+            ## nrExons
+            nrExons <- nrow(tempTable) / length(unique(tempTable$sampleName))
+            
+            ## select by gene
+            geneWindows <- countWindows[which(countWindows$gene %in% 
+                                                  selectedGenes),]
+            
+            #        geneWindows$chromosome <- gsub("chr", "", geneWindows$chromosome)
+            
+            tempTable <- tempTable[which(paste(tempTable$seqnames,
+                                               tempTable$start, 
+                                               tempTable$end, sep="_") %in%
+                                             paste(geneWindows$chromosome, 
+                                                   geneWindows$start, geneWindows$end,
+                                                   sep="_")),]
+            
+            ## used in function
+            medianRC <- apply(as.matrix(XandCB@elementMetadata), 1, median)
+            medianRCNorm <- apply(as.matrix(result@normalizedData), 1, median)
+            
+            for (i in 1:nrow(tempTable)) {
+                chr <- tempTable[i,]$seqnames
+                start <- tempTable[i,]$start
+                end <- tempTable[i,]$end
+                startEnd <- paste(start, end, sep="_")
+                
+                currSample <- tempTable[i,]$sampleName
+                
+                gw.row <- geneWindows[which(paste(geneWindows$chromosome,
+                                                  geneWindows$start, 
+                                                  geneWindows$end, sep="_") ==
+                                                paste(chr, start, end, sep="_")),]
+                
+                tempTable[i,]$genes <- gw.row[,5]
+                tempTable[i,]$exons <- gw.row[,4]
+                
+                tempTable[i,]$RC <- XandCB[which(paste(start(XandCB), end(XandCB), 
+                                                       sep="_") == startEnd),
+                                           which(colnames(XandCB@elementMetadata) 
+                                                 == currSample)]@elementMetadata[1,1]
+                tempTable[i,]$medianRC <- medianRC[which(paste(start(XandCB), 
+                                                               end(XandCB), sep="_") 
+                                                         == startEnd)]
+                
+                tempTable[i,]$RC.norm <-
+                    round(result@normalizedData[which(paste(normDataStarts, 
+                                                            normDataEnds, sep="_") 
+                                                      == startEnd),
+                                                which(colnames(result@normalizedData)==currSample)])
+                tempTable[i,]$medianRC.norm <-
+                    round(medianRCNorm[which(paste(normDataStarts, normDataEnds, 
+                                                   sep="_") == startEnd)])
+                
+                tempTable[i,]$exonNr <- gw.row$exon
+                
+                postSeg <- paste(gw.row$chromosome, gw.row$start, gw.row$end, 
+                                 sep="_")
+                ccn <- as.character(cn[postSeg, currSample])
+                tempTable[i,]$CN <- ccn
+                
+                if (postSeg %in% badexn) {
+                    tempTable[i,]$lowQ <- "lowQual"
+                } else {
+                    tempTable[i,]$lowQ <- ""
+                }
             }
+            # to have order from temptable, not from countWindows
+            tempGenes <- unique(tempTable$genes)
+            tempSamples <- unique(tempTable$sampleName)
+            
+            # GRanges adds X to sampleNames that start with number
+            Xidx <- which(!(tempTable$sampleName %in% sampleNames))
+            tempTable[Xidx,]$sampleName <-
+                substr(tempTable[Xidx,]$sampleName, start = 2,
+                       stop = nchar(as.character(tempTable[Xidx,]$sampleName)))
+            
+            tempTable <- data.frame("Sample"=tempTable$sampleName,
+                                    "Chr"=tempTable$seqnames, 
+                                    "Gene"=tempTable$genes,
+                                    "Exon"=tempTable$exons,
+                                    # "Exon"=tempTable$exonNr,
+                                    "Start"=tempTable$start, "End"=tempTable$end,
+                                    "RC"=tempTable$RC, "medRC"=tempTable$medianRC,
+                                    "RC.norm"=tempTable$RC.norm,
+                                    "medRC.norm"=tempTable$medianRC.norm,
+                                    "lowQual"=tempTable$lowQ,
+                                    "CN"=tempTable$CN)
+            
+            resulttable[[samp]] <- tempTable
+            
+        } else {
+            message(paste0("Sample ", tempTable$sampleName[1], " not selected."))
         }
-        # to have order from temptable, not from countWindows
-        tempGenes <- unique(tempTable$genes)
-        tempSamples <- unique(tempTable$sampleName)
-
-        # GRanges adds X to sampleNames that start with number
-        Xidx <- which(!(tempTable$sampleName %in% sampleNames))
-        tempTable[Xidx,]$sampleName <-
-            substr(tempTable[Xidx,]$sampleName, start = 2,
-                    stop = nchar(as.character(tempTable[Xidx,]$sampleName)))
-
-        tempTable <- data.frame("Sample"=tempTable$sampleName,
-                                "Chr"=tempTable$seqnames, 
-                                "Gene"=tempTable$genes,
-                                "Exon"=tempTable$exons,
-                                # "Exon"=tempTable$exonNr,
-                                "Start"=tempTable$start, "End"=tempTable$end,
-                                "RC"=tempTable$RC, "medRC"=tempTable$medianRC,
-                                "RC.norm"=tempTable$RC.norm,
-                                "medRC.norm"=tempTable$medianRC.norm,
-                                "lowQual"=tempTable$lowQ,
-                                "CN"=tempTable$CN)
-
         message("Finished")
 
-        resulttable[[samp]] <- tempTable
+
+
     }
     return(resulttable)
 }
