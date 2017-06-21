@@ -113,9 +113,11 @@ countBamListInGRanges <- function(bam.files, countWindows, read.width = 150,
                         "that you have the right BAM file and BED file."))
     }
 
-    colnames(M) <- basename(bam.files)
+#    colnames(M) <- basename(bam.files)
+#    print(colnames(M))
     RC <- GR
     RC@elementMetadata <- DataFrame(M)
+    colnames(RC@elementMetadata) <- basename(bam.files)
     return(RC)
 }
 

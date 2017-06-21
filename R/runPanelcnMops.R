@@ -90,6 +90,8 @@ runPanelcnMops <- function(XandCB, testiv = c(1), countWindows,
         }
     }
 
+    colnames(XandCB@elementMetadata) <- sampleNames
+    
     if (length(highQual) > 0){
         message(paste0("Had to reduce read counts for exon ",
                         countWindows[highQual,]$name,"\n"))
@@ -169,15 +171,17 @@ runPanelcnMops <- function(XandCB, testiv = c(1), countWindows,
 
     if (length(poorSamples) > 0) {
         XandCB <- XandCB[,-poorSamples]
+        sampleNames <- sampleNames[-poorSamples]
+        colnames(XandCB@elementMetadata) <- sampleNames
     }
-    
+
     ii <- 1
     resultlist <- list()
     for (t in testiv) {
         message(paste0("\nAnalyzing sample ", sampleNames[testiv[t]], "\n"))
         controli <- (1:ncol(XandCB@elementMetadata))[-testiv]
-        dup <- grep(colnames(XandCB@elementMetadata[,c(t,controli)])[1], 
-                    colnames(XandCB@elementMetadata[,controli]))
+        dup <- which(sampleNames[-testiv] == sampleNames[t])
+
         if (length(dup) > 0) {
             message("Removing test sample from control samples\n")
             controli <- controli[-dup]
@@ -188,6 +192,7 @@ runPanelcnMops <- function(XandCB, testiv = c(1), countWindows,
                             normType = normType, sizeFactor = sizeFactor, 
                             qu = qu, quSizeFactor = quSizeFactor, norm = norm,
                             maxControls = maxControls)
+        
         resultlist[[ii]] <- result
         ii <- ii + 1
     }

@@ -66,6 +66,7 @@ createResultTable <- function(resultlist, XandCB, countWindows,
         ## sampleNames
         # message("before sample name selection...")
         tempTable$sampleName <- as.character(tempTable$sampleName)
+#        print(unique(tempTable$sampleName))
         tempTable <- tempTable[which(tempTable$sampleName == tempTable$sampleName[1]),]
         # GRanges adds X to sampleNames that start with number
         tmpNames <- c(paste("X", sampleNames, sep=""), sampleNames)

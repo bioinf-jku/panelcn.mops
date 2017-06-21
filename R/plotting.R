@@ -13,7 +13,7 @@
 #' certain range of exons or NULL
 #' @param ylimup numeric, maximum RC is multiplied by this value to calculate 
 #' second value of ylim. Default = 1.15
-#' @param thresh numeric threshhold for plotting fold change areas 
+#' @param thresh numeric threshold for plotting fold change areas 
 #' E.g. thresh = 0.4 plots a green rectangle above (1 + 0.4)*median for each 
 #' boxplot and a red rectangle below (1 - 0.4)*median. Default of zero does not plot 
 #' any colored areas.

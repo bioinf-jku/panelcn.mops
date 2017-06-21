@@ -198,6 +198,7 @@ panelcn.mops <- function(input, testi = 1, geneInd=NULL,
     n <- length(I)
     
     sampleNames <- colnames(X)
+
     if(is.null(sampleNames)) {
         sampleNames <- as.character(1:nSamples)
     }
@@ -250,7 +251,6 @@ panelcn.mops <- function(input, testi = 1, geneInd=NULL,
     sampleNames <- c(sampleNamesT, sampleNames[newO[conti]])
     X <- X[,sampleNames]
     nSamples <- ncol(X)
-    
     
     # NORMALIZING ################################################
 
