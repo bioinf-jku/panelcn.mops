@@ -77,7 +77,8 @@ plotBoxplot <- function(result, sampleName, countWindows, selectedGenes = NULL,
         countWindows[c(1, which(countWindows$gene %in% selectedGenes)),]
     geneWindowsPaste <- paste(geneWindows$chromosome, geneWindows$start,
                                 geneWindows$end, sep="_")
-    plotData <- as.matrix(result@normalizedData)[geneWindowsPaste,]
+    plotData <- as.matrix(result@normalizedData)
+    plotData <- plotData[which(rownames(plotData) %in% geneWindowsPaste),]
     
     if (is.vector(plotData)) {
         stop("Gene not in result - nothing to plot!")
