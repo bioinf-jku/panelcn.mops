@@ -61,7 +61,7 @@ createResultTable <- function(resultlist, XandCB, countWindows,
         
         ## seqnames
         tempTable$seqnames <- as.character(tempTable$seqnames)
-        
+
         ## sampleNames
         tempTable$sampleName <- as.character(tempTable$sampleName)
         tempTable <- tempTable[which(tempTable$sampleName == 
@@ -70,7 +70,6 @@ createResultTable <- function(resultlist, XandCB, countWindows,
         tmpRows <- which(tempTable$sampleName %in% tmpNames)
         
         if (length(tmpRows) > 0) {
-            
             tempTable <- tempTable[tmpRows,]
             message(paste(unique(tempTable$sampleName), "\n"))
             
@@ -102,13 +101,6 @@ createResultTable <- function(resultlist, XandCB, countWindows,
                                     medianRC, RC.norm, medianRC.norm, lowQ, 
                                     stringsAsFactors = FALSE)
             
-            ##get starts in order of normalized matrix -- order is different
-            normDataStarts <- as.numeric(sapply(strsplit(
-                row.names(result@normalizedData), "[_]"), "[[", 2))
-            normDataEnds <- as.numeric(sapply(strsplit(
-                row.names(result@normalizedData), "[_]"), "[[", 3))
-            
-            
             ## nrExons
             nrExons <- nrow(tempTable) / length(unique(tempTable$sampleName))
             
@@ -127,8 +119,8 @@ createResultTable <- function(resultlist, XandCB, countWindows,
             medianRC <- apply(as.matrix(XandCB@elementMetadata), 1, median)
             medianRCNorm <- apply(as.matrix(result@normalizedData), 1, median)
             
-            
             currSample <- tempTable[1,]$sampleName
+            message(currSample)
             
             tempWindows <- paste(tempTable$seqnames,
                                  tempTable$start, 
