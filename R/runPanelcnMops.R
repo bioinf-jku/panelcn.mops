@@ -180,7 +180,7 @@ runPanelcnMops <- function(XandCB, testiv = c(1), countWindows,
     for (t in testiv) {
         message(paste0("\nAnalyzing sample ", sampleNames[testiv[t]], "\n"))
         controli <- (1:ncol(XandCB@elementMetadata))[-testiv]
-        dup <- which(sampleNames[-testiv] == sampleNames[t])
+        dup <- grep(sampleNames[t], sampleNames[-testiv])
 
         if (length(dup) > 0) {
             message("Removing test sample from control samples\n")

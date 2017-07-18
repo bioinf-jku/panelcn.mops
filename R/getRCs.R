@@ -25,10 +25,10 @@ getWindows <- function(filename, chr = FALSE) {
     data$V4 <- as.character(data$V4)
     data$V1 <- as.character(data$V1)
     data <- data[!duplicated(paste(data$V1, data$V2, data$V3, sep="_")),]
-    firstColumnAsList <- strsplit(data[,4],"[.]")
-    firstColumnAsVector <- sapply(firstColumnAsList,'[',1)
+    firstColumnAsList <- strsplit(data[,4], "[.]")
+    firstColumnAsVector <- sapply(firstColumnAsList, '[', 1)
     data[,5] <- firstColumnAsVector
-    secondColumnAsVector <- sapply(firstColumnAsList,'[',2)
+    secondColumnAsVector <- sapply(firstColumnAsList, '[', 2)
     if (length(grep("E", secondColumnAsVector))) {
         data[,6] <- secondColumnAsVector
     } else {
