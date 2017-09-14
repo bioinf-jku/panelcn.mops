@@ -276,7 +276,7 @@ panelcn.mops <- function(input, testi = 1, geneInd=NULL,
         if (length(sampleNames) - length(badcontrol) < 5) {
             message("Too many bad control samples")
             cs <- sort(c)
-            print(c)
+            message(c)
             badcontrol <- c()
         }
         

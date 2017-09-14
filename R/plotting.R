@@ -15,8 +15,8 @@
 #' second value of ylim. Default = 1.15
 #' @param thresh numeric threshold for plotting fold change areas 
 #' E.g. thresh = 0.4 plots a green rectangle above (1 + 0.4)*median for each 
-#' boxplot and a red rectangle below (1 - 0.4)*median. Default of zero does not plot 
-#' any colored areas.
+#' boxplot and a red rectangle below (1 - 0.4)*median. Default of zero does 
+#' not plot any colored areas.
 #' @return generates a boxplot of the normalized read counts
 #' @examples
 #' data(panelcn.mops)
@@ -25,8 +25,8 @@
 #' plotBoxplot(result = resultlist[[1]], sampleName = sampleNames[1], 
 #'             countWindows = countWindows, selectedGenes = selectedGenes, 
 #'             showGene = 1)
-#' @importFrom graphics points axis boxplot legend
-#' @importFrom grDevices rainbow
+#' @importFrom graphics points axis boxplot legend par rect
+#' @importFrom grDevices rainbow rgb
 #' @export
 plotBoxplot <- function(result, sampleName, countWindows, selectedGenes = NULL,
                         showGene = 1, showLegend = TRUE, exonRange = NULL, 
@@ -95,8 +95,8 @@ plotBoxplot <- function(result, sampleName, countWindows, selectedGenes = NULL,
         exonRange <- c(1, length(startLabels))
     }
 
-	par(mar=c(6, 4, 4, 2) + 0.1)
-	
+    par(mar=c(6, 4, 4, 2) + 0.1)
+
     m <- length(sampleName)
     n <- ncol(plotData)
 
@@ -115,13 +115,17 @@ plotBoxplot <- function(result, sampleName, countWindows, selectedGenes = NULL,
     if (thresh) {
         x0s <- 1:length((exonRange[1]):(exonRange[2])) - 0.4
         x1s <- 1:length((exonRange[1]):(exonRange[2])) + 0.4
-        y0s <- apply(plotData[(exonRange[1]+1):(exonRange[2]+1),], 1, median)*(1 + thresh)
-        y1s <- apply(plotData[(exonRange[1]+1):(exonRange[2]+1),], 1, median)*(1 - thresh)
+        y0s <- apply(plotData[(exonRange[1]+1):(exonRange[2]+1),], 1, 
+                        median)*(1 + thresh)
+        y1s <- apply(plotData[(exonRange[1]+1):(exonRange[2]+1),], 1, 
+                        median)*(1 - thresh)
 
 #        segments(x0 = x0s, x1 = x1s, y0 = y0s, col = "green", lty=2)
 #        segments(x0 = x0s, x1 = x1s, y0 = y1s, col = "red", lty=2)
-        rect(xleft = x0s, xright = x1s, ybottom = y0s, ytop = ylim[2], col = rgb(0, 255, 0, 50, maxColorValue=255), lty = "blank")
-        rect(xleft = x0s, xright = x1s, ybottom = ylim[1], ytop = y1s, col = rgb(255, 0, 0, 50, maxColorValue=255), lty = "blank")
+        rect(xleft = x0s, xright = x1s, ybottom = y0s, ytop = ylim[2], 
+                col = rgb(0, 255, 0, 50, maxColorValue=255), lty = "blank")
+        rect(xleft = x0s, xright = x1s, ybottom = ylim[1], ytop = y1s, 
+                col = rgb(255, 0, 0, 50, maxColorValue=255), lty = "blank")
     }
 
     axis(1, at=1:(abs(exonRange[2]-exonRange[1])+1),

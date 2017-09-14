@@ -249,7 +249,7 @@ countBamListInGRanges <- function(bam.files, countWindows, read.width = 150,
 
 splitROIs <- function(oldBedFile, newBedFile, limit = 0, bin = 100, shift = 50, 
                         chr = FALSE) {
-  
+
     if (!(is.numeric(limit) & limit >= 0 & length(limit)==1)) {
         stop("\"limit\" must be numeric, larger or equal 0 and of length 1.")
     }

@@ -65,7 +65,7 @@ createResultTable <- function(resultlist, XandCB, countWindows,
         ## sampleNames
         tempTable$sampleName <- as.character(tempTable$sampleName)
         tempTable <- tempTable[which(tempTable$sampleName == 
-                                         tempTable$sampleName[1]),]
+                                        tempTable$sampleName[1]),]
         tmpNames <- c(paste("X", sampleNames, sep = ""), sampleNames)
         tmpRows <- which(tempTable$sampleName %in% tmpNames)
         
@@ -106,11 +106,11 @@ createResultTable <- function(resultlist, XandCB, countWindows,
             
             ## select by gene
             geneWindows <- countWindows[which(countWindows$gene %in% 
-                                                  selectedGenes),]
+                                                selectedGenes),]
             
             tempTable <- tempTable[which(paste(tempTable$seqnames,
-                                               tempTable$start, 
-                                               tempTable$end, sep = "_") %in%
+                                                tempTable$start, 
+                                                tempTable$end, sep = "_") %in%
                                         paste(geneWindows$chromosome, 
                                             geneWindows$start, geneWindows$end,
                                                 sep = "_")),]
@@ -123,13 +123,13 @@ createResultTable <- function(resultlist, XandCB, countWindows,
             message(currSample)
             
             tempWindows <- paste(tempTable$seqnames,
-                                 tempTable$start, 
-                                 tempTable$end, sep = "_")
+                                    tempTable$start, 
+                                    tempTable$end, sep = "_")
             
             gw.rows <- geneWindows[which(paste(geneWindows$chromosome,
-                                               geneWindows$start, 
-                                               geneWindows$end, sep = "_") %in%
-                                             tempWindows),]
+                                                geneWindows$start, 
+                                                geneWindows$end, sep = "_") %in%
+                                                tempWindows),]
             row.names(gw.rows) <- paste(gw.rows$chromosome,
                                         gw.rows$start, 
                                         gw.rows$end, sep = "_")
@@ -144,18 +144,18 @@ createResultTable <- function(resultlist, XandCB, countWindows,
                                             start(XandCB), end(XandCB), 
                                             sep = "_") %in% tempWindows),
                                 which(colnames(XandCB@elementMetadata) 
-                                      == currSample)]
+                                        == currSample)]
             
             RCs <- XandCBred@elementMetadata[,1]
             redNames <- paste(as.vector(seqnames(XandCBred)), start(XandCBred),
-                              end(XandCBred), sep = "_")
+                                end(XandCBred), sep = "_")
             names(RCs) <- redNames
             # make sure that RCs have right order
             tempTable$RC <- RCs[tempWindows]
             
             tempMedianRC <- medianRC[which(paste(as.vector(seqnames(XandCB)), 
-                                                 start(XandCB), end(XandCB), 
-                                                 sep = "_") %in% tempWindows)]
+                                                start(XandCB), end(XandCB), 
+                                                sep = "_") %in% tempWindows)]
             names(tempMedianRC) <- redNames
             
             tempTable$medianRC <- tempMedianRC[tempWindows]
@@ -165,7 +165,7 @@ createResultTable <- function(resultlist, XandCB, countWindows,
                     row.names(result@normalizedData) 
                                 %in% tempWindows),
                     which(colnames(result@normalizedData) == 
-                          currSample)])[tempWindows]
+                            currSample)])[tempWindows]
             
             
             tempTable$medianRC.norm <- 
@@ -189,15 +189,17 @@ createResultTable <- function(resultlist, XandCB, countWindows,
             Xidx <- which(!(tempTable$sampleName %in% sampleNames))
             tempTable[Xidx,]$sampleName <-
                 substr(tempTable[Xidx,]$sampleName, start = 2,
-                       stop = nchar(as.character(tempTable[Xidx,]$sampleName)))
+                        stop = nchar(as.character(tempTable[Xidx,]$sampleName)))
             
             tempTable <- data.frame("Sample" = tempTable$sampleName,
                                 "Chr" = tempTable$seqnames, 
                                 "Gene" = tempTable$genes,
                                 "Exon" = tempTable$exons,
                                 # "Exon" = tempTable$exonNr,
-                                "Start" = tempTable$start, "End" = tempTable$end,
-                                "RC" = tempTable$RC, "medRC" = tempTable$medianRC,
+                                "Start" = tempTable$start, 
+                                "End" = tempTable$end,
+                                "RC" = tempTable$RC, 
+                                "medRC" = tempTable$medianRC,
                                 "RC.norm" = tempTable$RC.norm,
                                 "medRC.norm" = tempTable$medianRC.norm,
                                 "lowQual" = tempTable$lowQ,
@@ -208,7 +210,7 @@ createResultTable <- function(resultlist, XandCB, countWindows,
             
         } else {
             message(paste0("Sample ", tempTable$sampleName[1], 
-                           " not selected."))
+                            " not selected."))
         }
         message("Finished")
 

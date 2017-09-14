@@ -128,9 +128,9 @@ countWindows <- getWindows(bed)
 
 \item Getting read counts from BAM file (also see Section \ref{s:input}).
 <<eval=FALSE>>=
-testfile <- "SAMPLE1.bam"
+testbam <- "SAMPLE1.bam"
 test <- countBamListInGRanges(countWindows = countWindows,
-                                bam.files = testfile, read.width = 150)
+                                bam.files = testbam, read.width = 150)
 @
 
 \item Running the algorithm (also see Section \ref{s:panelcn.mops}).
@@ -281,9 +281,8 @@ and the BAM files is detected, the naming convention of the BAM file is chosen.
 In the second step RCs are generated from the BAM files. The read.width 
 parameter reflects the typical length of the reads that should be counted.
 
-<<>>=
-testbam <- list.files(system.file("extdata", package = "panelcn.mops"),
-                        pattern = ".bam$", full.names = TRUE)
+<<eval=FALSE>>=
+testbam <- "SAMPLE1.bam"
 test <- countBamListInGRanges(countWindows = countWindows,
                                 bam.files = testbam, read.width = 150)
 @

@@ -30,10 +30,10 @@ certain range of exons or NULL}
 \item{ylimup}{numeric, maximum RC is multiplied by this value to calculate 
 second value of ylim. Default = 1.15}
 
-\item{thresh}{numeric threshhold for plotting fold change areas 
+\item{thresh}{numeric threshold for plotting fold change areas 
 E.g. thresh = 0.4 plots a green rectangle above (1 + 0.4)*median for each 
-boxplot and a red rectangle below (1 - 0.4)*median. Default of zero does not plot 
-any colored areas.}
+boxplot and a red rectangle below (1 - 0.4)*median. Default of zero does 
+not plot any colored areas.}
 }
 \value{
 generates a boxplot of the normalized read counts
