@@ -12,9 +12,9 @@ citEntry(entry="Article",
                             as.person("Sepp Hochreiter"),
                             as.person("Katharina Wimmer")),
          year="2017",
-         volume="-",
-         pages="-",
-         
+         volume="38",
+         number="7",
+         pages="889-897",
          journal="Human Mutation",
          organization=paste("Institute of Bioinformatics",
                             "Johannes Kepler University", sep=", "),
@@ -24,7 +24,7 @@ citEntry(entry="Article",
              paste("Gundula Povysil, Antigoni Tzika, Julia Vogt, Verena Haunschmid, Ludwine Messiaen, ",
                     "Johannes Zschocke, Guenter Klambauer, Sepp Hochreiter, and Katharina Wimmer (2017), ",
                     "panelcn.MOPS: Copy number detection in targeted NGS panel data for clinical diagnostics. ", 
-                    "Human Mutation. doi:10.1002/humu.23237.",sep="")
+                    "Human Mutation, 38(7), 889-897. doi:10.1002/humu.23237.", sep="")
          
          )
                    
