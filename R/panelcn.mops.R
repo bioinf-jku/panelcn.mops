@@ -1,5 +1,7 @@
-#' main function of the package panelcn.mops
-#'
+#' @title Core copy number detection algorithm for targeted NGS panel data
+#' @description This function performs the cn.mops algorithm for copy number
+#' detection in NGS data adjusted to targeted NGS panel data including the 
+#' second quality control.
 #' @param input either an instance of "GRanges" or a raw data matrix, where
 #' columns are interpreted as samples and rows as genomic regions. An entry is
 #' the read count of a sample in the genomic region.
@@ -100,12 +102,12 @@ panelcn.mops <- function(input, testi = 1, geneInd=NULL,
             X <- matrix(as.numeric(X),nrow=nrow(X))
             colnames(X) <- colnames(input)
             chr <- rep("undef",nrow(X))
-            irAllRegions <- IRanges(start=1:nrow(X),end=1:nrow(X))
+            irAllRegions <- IRanges(start=seq_len(nrow(X)),end=seq_len(nrow(X)))
             grAllRegions <- GRanges(chr,irAllRegions)
         } else{
             inputType <- "DataMatrix"
             chr <- "undef"
-            irAllRegions <- IRanges(start=1:nrow(X),end=1:nrow(X))
+            irAllRegions <- IRanges(start=seq_len(nrow(X)),end=seq_len(nrow(X)))
             grAllRegions <- GRanges(chr,irAllRegions)
             parallel <- 0
         }
@@ -114,7 +116,7 @@ panelcn.mops <- function(input, testi = 1, geneInd=NULL,
         X <- matrix(input,nrow=1)
         X <- matrix(as.numeric(X),nrow=nrow(X))
         chr <- "undef"
-        irAllRegions <- IRanges(start=1:nrow(X),end=1:nrow(X))
+        irAllRegions <- IRanges(start=seq_len(nrow(X)),end=seq_len(nrow(X)))
         grAllRegions <- GRanges(chr,irAllRegions)
         parallel <- 0
     }else{
@@ -129,7 +131,7 @@ panelcn.mops <- function(input, testi = 1, geneInd=NULL,
     else if (testi != 1) {
         message("Rearranging X because test sample is not in column 1")
         testi <- as.integer(testi)
-        X <- X[,c(testi, 1:(testi-1), testi+(1:ncol(X)))]
+        X <- X[,c(testi, 1:(testi-1), (testi+1):ncol(X))]
     }
 
     if (!is.numeric(geneInd) & !is.null(geneInd)) 
@@ -200,7 +202,7 @@ panelcn.mops <- function(input, testi = 1, geneInd=NULL,
     sampleNames <- colnames(X)
 
     if(is.null(sampleNames)) {
-        sampleNames <- as.character(1:nSamples)
+        sampleNames <- as.character(seq_len(nSamples))
     }
     sampleNamesC <- sampleNames[-testi]
     sampleNamesT <- sampleNames[testi]
@@ -214,7 +216,7 @@ panelcn.mops <- function(input, testi = 1, geneInd=NULL,
 
     # selecting controls ###################################
 
-    goodROI <- 1:nROIs
+    goodROI <- seq_len(nROIs)
     goodROI <- setdiff(goodROI, geneInd)
     if (length(goodROI)>0) {
         Xgood <- X[goodROI,]
@@ -241,7 +243,7 @@ panelcn.mops <- function(input, testi = 1, geneInd=NULL,
     }
     if (maxControls > 0) {
         if (length(conti) > maxControls) {
-            conti <- conti[1:maxControls]
+            conti <- conti[seq_len(maxControls)]
         }
     }
     message(paste0("Selected ", length(conti), " out of ", 
@@ -264,7 +266,7 @@ panelcn.mops <- function(input, testi = 1, geneInd=NULL,
                                         sizeFactor=sizeFactor, qu=qu, 
                                         quSizeFactor=quSizeFactor)
         medianX.norm <- apply(as.matrix(X.norm), 1, median)
-        ratios <- sapply(1:ncol(X.norm), function(i)
+        ratios <- sapply(seq_len(ncol(X.norm)), function(i)
                             as.matrix(X.norm)[,i]/medianX.norm )
         b <- boxplot(ratios, plot=FALSE)
         c <- (b$stats[5,] - b$stats[1,])
@@ -294,7 +296,7 @@ panelcn.mops <- function(input, testi = 1, geneInd=NULL,
             nSamples <- ncol(X)
         
             medianX.norm <- apply(as.matrix(X.norm), 1, median)
-            ratios <- sapply(1:ncol(X.norm), function(i)
+            ratios <- sapply(seq_len(ncol(X.norm)), function(i)
                 as.matrix(X.norm)[,i]/medianX.norm )
             b <- boxplot(ratios, plot=FALSE)
             bad <- which((b$stats[5,] - b$stats[1,]) > 0.5)
@@ -380,7 +382,7 @@ panelcn.mops <- function(input, testi = 1, geneInd=NULL,
             post <- array(NA,dim=c(1,1,1))
         } else {
             post.tmp <- t(lapply(res,.subset2,6))
-            for (i in 1:nROIs){
+            for (i in seq_len(nROIs)){
                 post[i, ,] <- post.tmp[[i]]
             }
             dimnames(post) <- list(rownames(X),classes,colnames(X))
@@ -404,8 +406,9 @@ panelcn.mops <- function(input, testi = 1, geneInd=NULL,
         resSegmList[[chrom]] <- apply(sINI[chrIdx, , drop=FALSE], 2,
                     function(x) {
                         nbr <- length(chrIdx)
-                        data.frame("start"=1:nbr, "end"=1:nbr,
-                                    "mean"=x[1:nbr], "median"=x[1:nbr])
+                        data.frame("start"=seq_len(nbr), "end"=seq_len(nbr),
+                                    "mean"=x[seq_len(nbr)], 
+                                   "median"=x[seq_len(nbr)])
                     })
 
         segDfTmp <- cbind(do.call(rbind,resSegmList[[chrom]]),

@@ -4,9 +4,19 @@
 \name{test}
 \alias{test}
 \title{GRanges object of countWindows with read counts for a test sample as 
-elementMetadata}
+elementMetadata.}
 \description{
+The object was created using the function 
+countBamListInGRanges with the enclosed countWindows object, a subset of a 
+BAM file provided by the 1000 Genomes Project and the read.width parameter 
+set to 150.
+}
+\details{
 Test data included in panelcn.mops
+}
+\examples{
+data(panelcn.mops)
+test
 }
 \author{
 Gundula Povysil

@@ -51,7 +51,7 @@ createResultTable <- function(resultlist, XandCB, countWindows,
 
     resulttable <- list()
     
-    for (samp in 1:length(resultlist)) {
+    for (samp in seq_along(resultlist)) {
         result <- resultlist[[samp]]
         
         tempTable <- as.data.frame(cn.mops::cnvs(result))

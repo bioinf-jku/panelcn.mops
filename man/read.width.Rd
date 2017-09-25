@@ -7,6 +7,10 @@
 \description{
 Data included in panelcn.mops
 }
+\examples{
+data(panelcn.mops)
+read.width
+}
 \author{
 Gundula Povysil
 }

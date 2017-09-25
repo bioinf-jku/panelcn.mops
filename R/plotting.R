@@ -89,7 +89,7 @@ plotBoxplot <- function(result, sampleName, countWindows, selectedGenes = NULL,
     exons <- sapply(strsplit(geneWindowsData[,4], "[.]"), "[[", 2)[-1]
 
 
-    startLabels <- paste(exons, " (", 1:length(exons), ")")
+    startLabels <- paste(exons, " (", seq_along(exons), ")")
 
     if (is.null(exonRange) || length(exonRange) != 2 || 0 %in% exonRange) {
         exonRange <- c(1, length(startLabels))
@@ -113,8 +113,8 @@ plotBoxplot <- function(result, sampleName, countWindows, selectedGenes = NULL,
     }
     
     if (thresh) {
-        x0s <- 1:length((exonRange[1]):(exonRange[2])) - 0.4
-        x1s <- 1:length((exonRange[1]):(exonRange[2])) + 0.4
+        x0s <- seq_along((exonRange[1]):(exonRange[2])) - 0.4
+        x1s <- seq_along((exonRange[1]):(exonRange[2])) + 0.4
         y0s <- apply(plotData[(exonRange[1]+1):(exonRange[2]+1),], 1, 
                         median)*(1 + thresh)
         y1s <- apply(plotData[(exonRange[1]+1):(exonRange[2]+1),], 1, 
@@ -128,7 +128,7 @@ plotBoxplot <- function(result, sampleName, countWindows, selectedGenes = NULL,
                 col = rgb(255, 0, 0, 50, maxColorValue=255), lty = "blank")
     }
 
-    axis(1, at=1:(abs(exonRange[2]-exonRange[1])+1),
+    axis(1, at=seq_len(abs(exonRange[2]-exonRange[1])+1),
             labels=startLabels[(exonRange[1]):(exonRange[2])], las=2)
     col_vec <- c(rainbow(m), rep("black", n-m))
     for (j in n:1) {
@@ -139,7 +139,7 @@ plotBoxplot <- function(result, sampleName, countWindows, selectedGenes = NULL,
     if (showLegend) {
         #"topright", inset=c(-1,0)
         #0, max(plotData[exonRange[1]:exonRange[2],])+30+length(filelist)
-        legend("topright", sampleName, pch = 19, col=col_vec[1:m], cex=1)
+        legend("topright", sampleName, pch = 19, col=col_vec[seq_len(m)], cex=1)
     }
 
     par(mar=c(5, 4, 4, 2) + 0.1)

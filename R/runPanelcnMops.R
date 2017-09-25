@@ -1,5 +1,7 @@
-#' wrapper to run panelcn.mops with quality control
-#'
+#' @title Full copy number detection for targeted NGS panel data for 
+#' multiple samples
+#' @description This function performs first quality control and runs 
+#' panelcn.mops for CNV detection on all test samples.
 #' @param XandCB GRanges object of combined  read counts of test samples and
 #' control samples as returned by countBamListInGRanges
 #' @param testiv vector of indices of test samples in XandCB. Default = c(1)
@@ -85,7 +87,7 @@ runPanelcnMops <- function(XandCB, testiv = c(1), countWindows,
     poorSamples <- which(sampleMedian < sampleThresh)
 
     for (h in highQual) {
-        for (s in 1:ncol(XandCBMatrix)) {
+        for (s in seq_len(ncol(XandCBMatrix))) {
             XandCB@elementMetadata[h,s] <- XandCBMatrix[h,s]/10
         }
     }
@@ -128,7 +130,7 @@ runPanelcnMops <- function(XandCB, testiv = c(1), countWindows,
     ignoreExons <- unique(c(poorQual, XChr, YChr))
     subsetIdx <- rep(TRUE, nrow(countWindows))
     subsetIdx[ignoreExons] <- FALSE
-    usedExons <- (1:nrow(countWindows))[-ignoreExons]
+    usedExons <- seq_len(nrow(countWindows))[-ignoreExons]
     if (length(ignoreExons) > 0) {
         countWindows <- countWindows[-ignoreExons,]
     }
@@ -179,7 +181,7 @@ runPanelcnMops <- function(XandCB, testiv = c(1), countWindows,
     resultlist <- list()
     for (t in testiv) {
         message(paste0("\nAnalyzing sample ", sampleNames[testiv[t]], "\n"))
-        controli <- (1:ncol(XandCB@elementMetadata))[-testiv]
+        controli <- seq_len(ncol(XandCB@elementMetadata))[-testiv]
         dup <- grep(sampleNames[t], sampleNames[-testiv])
 
         if (length(dup) > 0) {
@@ -205,8 +207,15 @@ runPanelcnMops <- function(XandCB, testiv = c(1), countWindows,
 #' @name test
 #' @docType data
 #' @title GRanges object of countWindows with read counts for a test sample as 
-#' elementMetadata
+#' elementMetadata. 
+#' @description The object was created using the function 
+#' countBamListInGRanges with the enclosed countWindows object, a subset of a 
+#' BAM file provided by the 1000 Genomes Project and the read.width parameter 
+#' set to 150.
 #' @keywords data
+#' @examples
+#' data(panelcn.mops)
+#' test
 #' @author Gundula Povysil
 NULL
 
@@ -214,8 +223,15 @@ NULL
 #' @name control
 #' @docType data
 #' @title GRanges object of countWindows with read counts for control samples 
-#' as elementMetadata
+#' as elementMetadata. 
+#' @description The object was created using the function 
+#' countBamListInGRanges with the enclosed countWindows object, a subset of 
+#' BAM files provided by the 1000 Genomes Project and the read.width parameter 
+#' set to 150.
 #' @keywords data
+#' @examples
+#' data(panelcn.mops)
+#' control
 #' @author Gundula Povysil
 NULL
 
@@ -224,6 +240,9 @@ NULL
 #' @docType data
 #' @title result object of getWindows - a data.frame with the contents of 
 #' the provided BED file with an additional gene name and exon name column
+#' @examples
+#' data(panelcn.mops)
+#' countWindows
 #' @keywords data
 #' @author Gundula Povysil
 NULL
@@ -231,9 +250,12 @@ NULL
 #' Result data included in panelcn.mops
 #' @name resultlist
 #' @docType data
-#' @title result object of runPanlecnMops - a list of instances of 
+#' @title result object of runPanelcnMops - a list of instances of 
 #' "CNVDetectionResult"
 #' @keywords data
+#' @examples
+#' data(panelcn.mops)
+#' resultlist
 #' @author Gundula Povysil
 NULL
 
@@ -242,6 +264,9 @@ NULL
 #' @docType data
 #' @title read width used for calculating RCs of test and control
 #' @keywords data
+#' @examples
+#' data(panelcn.mops)
+#' read.width
 #' @author Gundula Povysil
 NULL
 

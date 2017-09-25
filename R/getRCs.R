@@ -70,10 +70,11 @@ getWindows <- function(filename, chr = FALSE) {
 #' bed <- list.files(system.file("extdata", package = "panelcn.mops"),
 #'                     pattern = ".bed$", full.names = TRUE)
 #' countWindows <- getWindows(bed)
-#' testbam <- list.files(system.file("extdata", package = "panelcn.mops"),
-#' pattern = ".bam$", full.names = TRUE)
+#'\dontrun{
+#' testbam <- "SAMPLE1.bam"
 #' test <- countBamListInGRanges(countWindows = countWindows,
 #'                                 bam.files = testbam, read.width = 150)
+#' }
 
 countBamListInGRanges <- function(bam.files, countWindows, read.width = 150, 
                                     ...){
@@ -81,7 +82,7 @@ countBamListInGRanges <- function(bam.files, countWindows, read.width = 150,
     GR <- GRanges(countWindows[,1], IRanges(countWindows[,2], 
                                             countWindows[,3]))
 
-    for (i in 1:length(bam.files)) {
+    for (i in seq_along(bam.files)) {
         message(paste("Processing", basename(bam.files[i]), "...", i, "/",
                         length(bam.files)))
         indexed <- (file.exists(paste(bam.files[i],".bai",sep="")) | 
@@ -276,7 +277,7 @@ splitROIs <- function(oldBedFile, newBedFile, limit = 0, bin = 100, shift = 50,
     exon <- c()
     geneName <- c()
 
-    for (i in 1:nrow(windows)) {
+    for (i in seq_len(nrow(windows))) {
     cw_row <- windows[i,]
     if ((cw_row$end - cw_row$start) > limit & 
         (cw_row$end - cw_row$start) > bin) {

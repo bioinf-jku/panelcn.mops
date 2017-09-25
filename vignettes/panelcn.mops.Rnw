@@ -126,7 +126,8 @@ bed <- "Genes_part.bed"
 countWindows <- getWindows(bed)
 @
 
-\item Getting read counts from BAM file (also see Section \ref{s:input}).
+\item Getting read counts (RCs) from BAM file (also see Section \ref{s:input}).
+Note that the BAM file is not included so do not try to run this code.
 <<eval=FALSE>>=
 testbam <- "SAMPLE1.bam"
 test <- countBamListInGRanges(countWindows = countWindows,
@@ -253,8 +254,8 @@ BAM files.
 The result object of the function can directly be used as input for
 \panelcnmops.
 
-The first step is to extract all ROIs that define the count windows from a 
-BED file with the function \verb+getWindows+. 
+The first step is to extract all resions of interest (ROIs) that define the 
+count windows from a BED file with the function \verb+getWindows+. 
 <<>>=
 bed <- list.files(system.file("extdata", package = "panelcn.mops"),
                         pattern = ".bed$", full.names = TRUE)
@@ -263,8 +264,7 @@ countWindows <- getWindows(bed)
 
 The BED file should have the following structure:
 <<echo=FALSE>>=
-bed <- list.files(system.file("extdata", package = "panelcn.mops"),
-                        pattern = ".bed$", full.names = TRUE)
+bed <- system.file("extdata/Genes_part.bed", package = "panelcn.mops")
 write.table(head(read.table(bed)), row.names = FALSE, col.names = FALSE, 
             quote = FALSE)
 @
@@ -280,6 +280,7 @@ and the BAM files is detected, the naming convention of the BAM file is chosen.
 
 In the second step RCs are generated from the BAM files. The read.width 
 parameter reflects the typical length of the reads that should be counted.
+Note that the BAM file is not included so do not try to run this code.
 
 <<eval=FALSE>>=
 testbam <- "SAMPLE1.bam"
@@ -297,14 +298,14 @@ If the BED file contains very large ROIs, a higher resolution of the CNV
 detection algorithm can be achieved by splitting up larger ROIs into smaller 
 overlapping bins. This can be achieved with the funciton \verb+splitROIs+:
 
-<<>>=
+<<eval=FALSE>>=
 splitROIs(bed, "newBed.bed")
 @
 
 By default all ROIs are split into bins of 100 bp with an overlap of 50 bp. 
 The parameter {\tt limit} controls the minimum size of the ROIs that should be 
 split (default = 0). The parameters {\tt bin} and {\tt shift} control the size 
-of the bins and the no. of bp between start positions of adjacent bins.
+of the bins and the no. of bp between start positions of adjacent bins. 
 
 \section{runPanelcnMops}
 \label{s:panelcn.mops}
@@ -321,10 +322,13 @@ median RC over all samples to exclude low coverage ROIs.
 
 data(panelcn.mops)
 
+selectedGenes <- "ATM"
+
 XandCB <- test
 elementMetadata(XandCB) <- cbind(elementMetadata(XandCB), 
                                 elementMetadata(control))
-resultlist <- runPanelcnMops(XandCB, countWindows = countWindows)
+resultlist <- runPanelcnMops(XandCB, countWindows = countWindows, 
+                             selectedGenes = selectedGenes)
 @
 
 

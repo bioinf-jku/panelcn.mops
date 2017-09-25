@@ -14,6 +14,5 @@ Depends: R (>= 3.4), cn.mops, methods, utils, stats, graphics
 biocViews: Sequencing, CopyNumberVariation, CellBiology, GenomicVariation, VariantDetection, Genetics
 RoxygenNote: 6.0.1
 NeedsCompilation: no
-Suggests: knitr,
-    rmarkdown
+Suggests: knitr, rmarkdown, RUnit, BiocGenerics
 VignetteBuilder: knitr

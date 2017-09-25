@@ -82,8 +82,7 @@ bed <- list.files(system.file("extdata", package = "panelcn.mops"),
 countWindows <- getWindows(bed)
 
 ## ----echo=FALSE------------------------------------------------
-bed <- list.files(system.file("extdata", package = "panelcn.mops"),
-                        pattern = ".bed$", full.names = TRUE)
+bed <- system.file("extdata/Genes_part.bed", package = "panelcn.mops")
 write.table(head(read.table(bed)), row.names = FALSE, col.names = FALSE, 
             quote = FALSE)
 
@@ -95,17 +94,20 @@ write.table(head(read.table(bed)), row.names = FALSE, col.names = FALSE,
 ## --------------------------------------------------------------
 (test)
 
-## --------------------------------------------------------------
-splitROIs(bed, "newBed.bed")
+## ----eval=FALSE------------------------------------------------
+#  splitROIs(bed, "newBed.bed")
 
 ## ----eval=FALSE------------------------------------------------
 #  
 #  data(panelcn.mops)
 #  
+#  selectedGenes <- "ATM"
+#  
 #  XandCB <- test
 #  elementMetadata(XandCB) <- cbind(elementMetadata(XandCB),
 #                                  elementMetadata(control))
-#  resultlist <- runPanelcnMops(XandCB, countWindows = countWindows)
+#  resultlist <- runPanelcnMops(XandCB, countWindows = countWindows,
+#                               selectedGenes = selectedGenes)
 
 ## ----eval=FALSE------------------------------------------------
 #  (str(resultlist[[1]]))

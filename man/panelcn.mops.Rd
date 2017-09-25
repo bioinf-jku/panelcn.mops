@@ -2,7 +2,7 @@
 % Please edit documentation in R/panelcn.mops.R
 \name{panelcn.mops}
 \alias{panelcn.mops}
-\title{main function of the package panelcn.mops}
+\title{Core copy number detection algorithm for targeted NGS panel data}
 \usage{
 panelcn.mops(input, testi = 1, geneInd = NULL, classes = c("CN0", "CN1",
   "CN2", "CN3", "CN4"), I = c(0.025, 0.5, 1, 1.5, 2), priorImpact = 1,
@@ -79,7 +79,9 @@ memory. Default = TRUE.}
 an instance of "CNVDetectionResult".
 }
 \description{
-main function of the package panelcn.mops
+This function performs the cn.mops algorithm for copy number
+detection in NGS data adjusted to targeted NGS panel data including the 
+second quality control.
 }
 \examples{
 data(panelcn.mops)

@@ -8,6 +8,10 @@ the provided BED file with an additional gene name and exon name column}
 \description{
 Data included in panelcn.mops
 }
+\examples{
+data(panelcn.mops)
+countWindows
+}
 \author{
 Gundula Povysil
 }

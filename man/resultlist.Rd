@@ -3,10 +3,14 @@
 \docType{data}
 \name{resultlist}
 \alias{resultlist}
-\title{result object of runPanlecnMops - a list of instances of 
+\title{result object of runPanelcnMops - a list of instances of 
 "CNVDetectionResult"}
 \description{
 Result data included in panelcn.mops
+}
+\examples{
+data(panelcn.mops)
+resultlist
 }
 \author{
 Gundula Povysil

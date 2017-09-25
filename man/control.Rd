@@ -4,9 +4,19 @@
 \name{control}
 \alias{control}
 \title{GRanges object of countWindows with read counts for control samples 
-as elementMetadata}
+as elementMetadata.}
 \description{
+The object was created using the function 
+countBamListInGRanges with the enclosed countWindows object, a subset of 
+BAM files provided by the 1000 Genomes Project and the read.width parameter 
+set to 150.
+}
+\details{
 Control data included in panelcn.mops
+}
+\examples{
+data(panelcn.mops)
+control
 }
 \author{
 Gundula Povysil

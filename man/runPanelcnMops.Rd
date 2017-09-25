@@ -2,7 +2,8 @@
 % Please edit documentation in R/runPanelcnMops.R
 \name{runPanelcnMops}
 \alias{runPanelcnMops}
-\title{wrapper to run panelcn.mops with quality control}
+\title{Full copy number detection for targeted NGS panel data for 
+multiple samples}
 \usage{
 runPanelcnMops(XandCB, testiv = c(1), countWindows, selectedGenes = NULL,
   I = c(0.025, 0.57, 1, 1.46, 2), normType = "quant",
@@ -64,7 +65,8 @@ all samples (test and control)}
 list of instances of "CNVDetectionResult"
 }
 \description{
-wrapper to run panelcn.mops with quality control
+This function performs first quality control and runs 
+panelcn.mops for CNV detection on all test samples.
 }
 \examples{
 data(panelcn.mops)
