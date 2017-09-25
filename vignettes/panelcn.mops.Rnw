@@ -114,6 +114,7 @@ information.\par
 To load the package, enter the following in your \R\ session:
 <<echo=TRUE>>=
 library(panelcn.mops)
+data(panelcn.mops)
 @
 
 The whole pipeline will only take a few steps, if BAM files are available
@@ -137,8 +138,6 @@ test <- countBamListInGRanges(countWindows = countWindows,
 \item Running the algorithm (also see Section \ref{s:panelcn.mops}).
 <<eval=FALSE>>=
 
-data(panelcn.mops)
-
 selectedGenes <- c("ATM")
 
 XandCB <- test
@@ -158,7 +157,6 @@ Section \ref{s:plot}.
 
 
 <<echo=FALSE,results='hide'>>=
-data(panelcn.mops)
 
 XandCB <- test
 elementMetadata(XandCB) <- cbind(elementMetadata(XandCB), 
@@ -187,7 +185,7 @@ plotBoxplot(result = resultlist[[1]], sampleName = sampleNames[1],
 
 
 <<fig.keep='none',echo=FALSE,results='hide'>>=
-data(panelcn.mops)
+
 sampleNames <- colnames(elementMetadata(test))
 selectedGenes <- "ATM"
 
@@ -257,8 +255,7 @@ The result object of the function can directly be used as input for
 The first step is to extract all resions of interest (ROIs) that define the 
 count windows from a BED file with the function \verb+getWindows+. 
 <<>>=
-bed <- list.files(system.file("extdata", package = "panelcn.mops"),
-                        pattern = ".bed$", full.names = TRUE)
+bed <- system.file("extdata/Genes_part.bed", package = "panelcn.mops")
 countWindows <- getWindows(bed)
 @
 
@@ -319,8 +316,6 @@ a vector of expected fold changes for the copy number classes and a minimal
 median RC over all samples to exclude low coverage ROIs.
 
 <<eval=FALSE>>=
-
-data(panelcn.mops)
 
 selectedGenes <- "ATM"
 

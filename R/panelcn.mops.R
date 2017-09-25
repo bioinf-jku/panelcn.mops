@@ -408,7 +408,7 @@ panelcn.mops <- function(input, testi = 1, geneInd=NULL,
                         nbr <- length(chrIdx)
                         data.frame("start"=seq_len(nbr), "end"=seq_len(nbr),
                                     "mean"=x[seq_len(nbr)], 
-                                   "median"=x[seq_len(nbr)])
+                                    "median"=x[seq_len(nbr)])
                     })
 
         segDfTmp <- cbind(do.call(rbind,resSegmList[[chrom]]),

@@ -18,6 +18,7 @@ panelcn.mopsVersion <- packageDescription("panelcn.mops")$Version
 
 ## ----echo=TRUE-------------------------------------------------
 library(panelcn.mops)
+data(panelcn.mops)
 
 ## ----eval=FALSE------------------------------------------------
 #  bed <- "Genes_part.bed"
@@ -29,8 +30,6 @@ library(panelcn.mops)
 #                                  bam.files = testbam, read.width = 150)
 
 ## ----eval=FALSE------------------------------------------------
-#  
-#  data(panelcn.mops)
 #  
 #  selectedGenes <- c("ATM")
 #  
@@ -44,7 +43,6 @@ library(panelcn.mops)
 #                              selectedGenes = selectedGenes)
 
 ## ----echo=FALSE,results='hide'---------------------------------
-data(panelcn.mops)
 
 XandCB <- test
 elementMetadata(XandCB) <- cbind(elementMetadata(XandCB), 
@@ -66,7 +64,7 @@ resulttable <- createResultTable(resultlist = resultlist, XandCB = XandCB,
 #              selectedGenes = selectedGenes, showGene = 1)
 
 ## ----fig.keep='none',echo=FALSE,results='hide'-----------------
-data(panelcn.mops)
+
 sampleNames <- colnames(elementMetadata(test))
 selectedGenes <- "ATM"
 
@@ -77,8 +75,7 @@ plotBoxplot(result = resultlist[[1]], sampleName = sampleNames[1],
 dev.off()
 
 ## --------------------------------------------------------------
-bed <- list.files(system.file("extdata", package = "panelcn.mops"),
-                        pattern = ".bed$", full.names = TRUE)
+bed <- system.file("extdata/Genes_part.bed", package = "panelcn.mops")
 countWindows <- getWindows(bed)
 
 ## ----echo=FALSE------------------------------------------------
@@ -98,8 +95,6 @@ write.table(head(read.table(bed)), row.names = FALSE, col.names = FALSE,
 #  splitROIs(bed, "newBed.bed")
 
 ## ----eval=FALSE------------------------------------------------
-#  
-#  data(panelcn.mops)
 #  
 #  selectedGenes <- "ATM"
 #  

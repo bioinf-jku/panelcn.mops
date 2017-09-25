@@ -67,8 +67,7 @@ getWindows <- function(filename, chr = FALSE) {
 #' @importFrom Rsamtools scanBamFlag
 #' @importFrom Rsamtools scanBam
 #' @examples
-#' bed <- list.files(system.file("extdata", package = "panelcn.mops"),
-#'                     pattern = ".bed$", full.names = TRUE)
+#' bed <- system.file("extdata/Genes_part.bed", package = "panelcn.mops")
 #' countWindows <- getWindows(bed)
 #'\dontrun{
 #' testbam <- "SAMPLE1.bam"
