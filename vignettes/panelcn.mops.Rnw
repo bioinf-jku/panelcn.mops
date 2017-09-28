@@ -128,7 +128,8 @@ countWindows <- getWindows(bed)
 @
 
 \item Getting read counts (RCs) from BAM file (also see Section \ref{s:input}).
-Note that the BAM file is not included so do not try to run this code.
+Note that the BAM file is not included so do not try to run this code. However, 
+the resulting test object is included as part of the data.
 <<eval=FALSE>>=
 testbam <- "SAMPLE1.bam"
 test <- countBamListInGRanges(countWindows = countWindows,
@@ -252,8 +253,9 @@ BAM files.
 The result object of the function can directly be used as input for
 \panelcnmops.
 
-The first step is to extract all resions of interest (ROIs) that define the 
-count windows from a BED file with the function \verb+getWindows+. 
+The first step is to extract all regions of interest (ROIs) that define the 
+count windows from a BED file with the function \verb+getWindows+. The BED 
+file that is provided is a subset of the TruSight Cancer Panel BED file.
 <<>>=
 bed <- system.file("extdata/Genes_part.bed", package = "panelcn.mops")
 countWindows <- getWindows(bed)
@@ -277,7 +279,8 @@ and the BAM files is detected, the naming convention of the BAM file is chosen.
 
 In the second step RCs are generated from the BAM files. The read.width 
 parameter reflects the typical length of the reads that should be counted.
-Note that the BAM file is not included so do not try to run this code.
+Note that the BAM file is not included so do not try to run this code. However, 
+the resulting test object is included as part of the data.
 
 <<eval=FALSE>>=
 testbam <- "SAMPLE1.bam"
