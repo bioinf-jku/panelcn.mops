@@ -1,7 +1,7 @@
 Package: panelcn.mops
 Type: Package
 Title: CNV detection tool for targeted NGS panel data
-Version: 1.0.0
+Version: 1.1.0
 Date: 2017-09-28
 Author: Verena Haunschmid, Gundula Povysil
 Maintainer: Gundula Povysil <povysil@bioinf.jku.at>
