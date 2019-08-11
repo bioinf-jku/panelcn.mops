@@ -8,7 +8,7 @@ panelcn.mops(input, testi = 1, geneInd = NULL, classes = c("CN0", "CN1",
   "CN2", "CN3", "CN4"), I = c(0.025, 0.5, 1, 1.5, 2), priorImpact = 1,
   cyc = 20, normType = "quant", sizeFactor = "quant", qu = 0.25,
   quSizeFactor = 0.75, norm = 1, minReadCount = 5, maxControls = 25,
-  useMedian = FALSE, returnPosterior = TRUE)
+  corrThresh = 0.99, useMedian = FALSE, returnPosterior = TRUE)
 }
 \arguments{
 \item{input}{either an instance of "GRanges" or a raw data matrix, where
@@ -66,6 +66,9 @@ applied to segments with very low coverage. Default = 5.}
 
 \item{maxControls}{integer reflecting the maximal numbers of controls to 
 use. If set to 0 all highly correlated controls are used. Default = 25}
+
+\item{corrThresh}{threshold for selecting highly correlated controls. 
+Default = 0.99}
 
 \item{useMedian}{flag indicating whether "median" instead of "mean" of a
 segment should be used for the CNV call. Default = FALSE.}
