@@ -7,8 +7,9 @@ The *panelcn.mops* R package is based on the *cn.mops* package and allows to det
 
    ```
    ## try http:// if https:// URLs are not supported  
-   source("https://bioconductor.org/biocLite.R")  
-   biocLite("cn.mops")  
+   if (!requireNamespace("BiocManager", quietly=TRUE))
+       install.packages("BiocManager")
+   BiocManager::install("cn.mops")  
    ```
    
 2. install *panelcn.mops* from github e.g. like this:
