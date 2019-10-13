@@ -213,7 +213,7 @@ dev.off()
 % real- or integer-valued matrix $\mathbf{X}$,
 % in which an entry $x_{ij}$ corresponds to the read count of sample $j$ in the
 % $i$-th segment. E.g. in the following read count matrix sample three has
-% $17$ reads in the second segment: $x_{23}=71$.
+% $71$ reads in the second segment: $x_{23}=71$.
 % 
 % 
 % \newlength{\mylen}

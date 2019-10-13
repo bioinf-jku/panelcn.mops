@@ -8,7 +8,8 @@ multiple samples}
 runPanelcnMops(XandCB, testiv = c(1), countWindows, selectedGenes = NULL,
   I = c(0.025, 0.57, 1, 1.46, 2), normType = "quant",
   sizeFactor = "quant", qu = 0.25, quSizeFactor = 0.75, norm = 1,
-  priorImpact = 1, minMedianRC = 30, maxControls = 25, sex = "mixed")
+  priorImpact = 1, minMedianRC = 30, maxControls = 25,
+  corrThresh = 0.99, sex = "mixed")
 }
 \arguments{
 \item{XandCB}{GRanges object of combined  read counts of test samples and
@@ -57,6 +58,9 @@ all samples < minMedianRC are excluded from the analysis}
 
 \item{maxControls}{integer reflecting the maximal numbers of controls to 
 use. If set to 0 all highly correlated controls are used. Default = 25}
+
+\item{corrThresh}{threshold for selecting highly correlated controls. 
+Default = 0.99}
 
 \item{sex}{either "mixed", "male", or "female" reflecting the sex of
 all samples (test and control)}

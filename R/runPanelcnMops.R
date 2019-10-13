@@ -36,6 +36,8 @@
 #' all samples < minMedianRC are excluded from the analysis
 #' @param maxControls integer reflecting the maximal numbers of controls to 
 #' use. If set to 0 all highly correlated controls are used. Default = 25
+#' @param corrThresh threshold for selecting highly correlated controls. 
+#' Default = 0.99
 #' @param sex either "mixed", "male", or "female" reflecting the sex of
 #' all samples (test and control)
 #' @return list of instances of "CNVDetectionResult"
@@ -54,7 +56,7 @@ runPanelcnMops <- function(XandCB, testiv = c(1), countWindows,
                             normType = "quant", sizeFactor = "quant", 
                             qu = 0.25, quSizeFactor = 0.75,
                             norm = 1, priorImpact = 1, minMedianRC = 30, 
-                            maxControls = 25,
+                            maxControls = 25, corrThresh = 0.99,
                             sex = "mixed") {
 
     if (missing(countWindows)) {
@@ -193,7 +195,7 @@ runPanelcnMops <- function(XandCB, testiv = c(1), countWindows,
                             priorImpact = priorImpact,
                             normType = normType, sizeFactor = sizeFactor, 
                             qu = qu, quSizeFactor = quSizeFactor, norm = norm,
-                            maxControls = maxControls)
+                            maxControls = maxControls, corrThresh = corrThresh)
         
         resultlist[[ii]] <- result
         ii <- ii + 1

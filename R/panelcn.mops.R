@@ -44,6 +44,8 @@
 #' applied to segments with very low coverage. Default = 5.
 #' @param maxControls integer reflecting the maximal numbers of controls to 
 #' use. If set to 0 all highly correlated controls are used. Default = 25
+#' @param corrThresh threshold for selecting highly correlated controls. 
+#' Default = 0.99
 #' @param useMedian flag indicating whether "median" instead of "mean" of a
 #' segment should be used for the CNV call. Default = FALSE.
 #' @param returnPosterior flag that decides whether the posterior probabilities
@@ -70,7 +72,7 @@ panelcn.mops <- function(input, testi = 1, geneInd=NULL,
                             cyc = 20,
                             normType = "quant", sizeFactor = "quant", qu = 0.25,
                             quSizeFactor = 0.75, norm = 1, minReadCount = 5,
-                            maxControls = 25,
+                            maxControls = 25, corrThresh = 0.99,
                             useMedian = FALSE, returnPosterior = TRUE){
     # CHECK INPUT
 
@@ -169,9 +171,13 @@ panelcn.mops <- function(input, testi = 1, geneInd=NULL,
     #if (!is.character(segAlgorithm)){
     #    stop("\"segAlgorithm\" must be \"fastseg\" or \"DNAcopy\"!")
     #}
-    
-    if (!(is.numeric(maxControls) & maxControls > 0 & length(maxControls)==1)) {
-        stop("\"maxControls\" must be numeric, larger than 0 and of length 1.")
+    if (!(is.numeric(corrThresh) & length(corrThresh)==1))
+        stop("\"corrThresh\" must be numeric and of length 1.")
+    if (!(corrThresh > 0 & corrThresh < 1))
+        stop("\"corrThresh\" must be between 0 and 1.")
+    message(paste0("\"corrThresh\" is set to ", corrThresh))
+    if (!(is.numeric(maxControls) & maxControls >= 0 & length(maxControls)==1)) {
+        stop("\"maxControls\" must be numeric, at least 0 and of length 1.")
     } else {
         message(paste0("\"maxControls\" is set to ", maxControls))
     }
@@ -230,7 +236,7 @@ panelcn.mops <- function(input, testi = 1, geneInd=NULL,
     
     message(paste0(K[,1], "\n"))
     
-    conti <- which(K[,1] > 0.99)
+    conti <- which(K[,1] > corrThresh)
 
     conti <- setdiff(conti, 1)
     if (length(conti) < 8) {
