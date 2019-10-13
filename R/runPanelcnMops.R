@@ -182,7 +182,7 @@ runPanelcnMops <- function(XandCB, testiv = c(1), countWindows,
     ii <- 1
     resultlist <- list()
     for (t in testiv) {
-        message(paste0("\nAnalyzing sample ", sampleNames[testiv[t]], "\n"))
+        message(paste0("\nAnalyzing sample ", sampleNames[t], "\n"))
         controli <- seq_len(ncol(XandCB@elementMetadata))[-testiv]
         dup <- grep(sampleNames[t], sampleNames[-testiv])
 
