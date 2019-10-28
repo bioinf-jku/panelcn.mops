@@ -72,6 +72,9 @@ runPanelcnMops <- function(XandCB, testiv = c(1), countWindows,
         selectedGenes <- c()
     }
 
+    XandCB@elementMetadata <- XandCB@elementMetadata[,c(testiv, 
+                (1:ncol(XandCB@elementMetadata))[-testiv])]
+    testiv <- 1:length(testiv)
     
     sampleNames <- colnames(XandCB@elementMetadata)
     message(paste0("Analyzing sample(s) ", sampleNames[testiv], "\n"))
