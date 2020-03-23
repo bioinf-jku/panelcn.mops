@@ -40,7 +40,7 @@ test.createResultTable <- function() {
     
     cns <- as.factor(c(rep("CN2", 60), rep("CN3", 2)))
     
-    checkEquals(newResulttable[[1]]$CN, cns,
+    checkEquals(as.factor(newResulttable[[1]]$CN), cns,
                 checkNames = FALSE)
 }
 
