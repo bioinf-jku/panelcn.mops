@@ -76,7 +76,7 @@ panelcn.mops <- function(input, testi = 1, geneInd=NULL,
                             useMedian = FALSE, returnPosterior = TRUE){
     # CHECK INPUT
 
-    if(class(input)=="GRanges"){
+    if(any(class(input)=="GRanges")){
         inputType <- "GRanges"
         input <- sortSeqlevels(input)
         input <- GenomicRanges::sort(input)
