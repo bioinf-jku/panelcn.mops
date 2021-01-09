@@ -73,12 +73,15 @@ plotBoxplot <- function(result, sampleName, countWindows, selectedGenes = NULL,
     
     selectedGenes <- selectedGenes[geneidx]
     # dummy ROI necessary for genes with only 1 ROI
-    geneWindows <- 
-        countWindows[c(1, which(countWindows$gene %in% selectedGenes)),]
+    dummy <- seq_len(nrow(countWindows))[-which(countWindows$gene %in% selectedGenes)][1]
+    if (is.na(dummy)) {
+        stop("Gene not in countWindows - nothing to plot!")
+    }
+    geneWindows <- countWindows[c(dummy, which(countWindows$gene %in% selectedGenes)),]
     geneWindowsPaste <- paste(geneWindows$chromosome, geneWindows$start,
                                 geneWindows$end, sep="_")
     plotData <- as.matrix(result@normalizedData)
-    plotData <- plotData[which(rownames(plotData) %in% geneWindowsPaste),]
+    plotData <- plotData[geneWindowsPaste,]
     
     if (is.vector(plotData)) {
         stop("Gene not in result - nothing to plot!")
