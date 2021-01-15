@@ -72,24 +72,24 @@ plotBoxplot <- function(result, sampleName, countWindows, selectedGenes = NULL,
     }
     
     selectedGenes <- selectedGenes[geneidx]
-    # dummy ROI necessary for genes with only 1 ROI
-    dummy <- seq_len(nrow(countWindows))[-which(countWindows$gene %in% selectedGenes)][1]
-    if (is.na(dummy)) {
-        stop("Gene not in countWindows - nothing to plot!")
-    }
-    geneWindows <- countWindows[c(dummy, which(countWindows$gene %in% selectedGenes)),]
-    geneWindowsPaste <- paste(geneWindows$chromosome, geneWindows$start,
-                                geneWindows$end, sep="_")
+    countWindowsPaste <- paste(countWindows$chromosome, countWindows$start,
+                               countWindows$end, sep="_")
     plotData <- as.matrix(result@normalizedData)
-    plotData <- plotData[geneWindowsPaste,]
+    countWindowsNew <- countWindows[which(countWindowsPaste %in%
+                                             rownames(plotData)),]
     
-    if (is.vector(plotData)) {
+    # dummy ROI necessary for genes with only 1 ROI
+    dummy <- seq_len(nrow(countWindowsNew))[-which(countWindowsNew$gene %in% selectedGenes)][1]
+    if (is.na(dummy)) {
         stop("Gene not in result - nothing to plot!")
     }
-    geneWindowsData <- geneWindows[which(geneWindowsPaste %in%
-                                            rownames(plotData)),]
-    genes <- geneWindowsData$gene[-1]
-    exons <- sapply(strsplit(geneWindowsData[,4], "[.]"), "[[", 2)[-1]
+    geneWindows <- countWindowsNew[c(dummy, which(countWindowsNew$gene %in% selectedGenes)),]
+    geneWindowsPaste <- paste(geneWindows$chromosome, geneWindows$start,
+                                geneWindows$end, sep="_")
+    plotData <- plotData[geneWindowsPaste,]
+    
+    genes <- geneWindows$gene[-1]
+    exons <- sapply(strsplit(geneWindows[,4], "[.]"), "[[", 2)[-1]
 
 
     startLabels <- paste(exons, " (", seq_along(exons), ")")
