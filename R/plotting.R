@@ -105,7 +105,7 @@ plotBoxplot <- function(result, sampleName, countWindows, selectedGenes = NULL,
 
     ylim <- c(0, (max(plotData[(exonRange[1]+1):(exonRange[2]+1),]))*ylimup)
 
-    if (abs(exonRange[2]-exonRange[1]) > 1) {
+    if (abs(exonRange[2]-exonRange[1]) >= 1) {
         boxplot(t(plotData[(exonRange[1]+1):(exonRange[2]+1),]), ylim=ylim, 
                 xaxt="n", ylab="normalized read counts", bty='L', 
                 main=unlist(selectedGenes))
@@ -118,11 +118,17 @@ plotBoxplot <- function(result, sampleName, countWindows, selectedGenes = NULL,
     if (thresh) {
         x0s <- seq_along((exonRange[1]):(exonRange[2])) - 0.4
         x1s <- seq_along((exonRange[1]):(exonRange[2])) + 0.4
-        y0s <- apply(plotData[(exonRange[1]+1):(exonRange[2]+1),], 1, 
-                        median)*(1 + thresh)
-        y1s <- apply(plotData[(exonRange[1]+1):(exonRange[2]+1),], 1, 
-                        median)*(1 - thresh)
-
+        if (abs(exonRange[2]-exonRange[1]) >= 1) {
+            y0s <- apply(plotData[(exonRange[1]+1):(exonRange[2]+1),], 1, 
+                            median)*(1 + thresh)
+            y1s <- apply(plotData[(exonRange[1]+1):(exonRange[2]+1),], 1, 
+                            median)*(1 - thresh)
+        } else {
+            y0s <- apply(t(plotData[(exonRange[1]+1):(exonRange[2]+1),]), 1, 
+                         median)*(1 + thresh)
+            y1s <- apply(t(plotData[(exonRange[1]+1):(exonRange[2]+1),]), 1, 
+                         median)*(1 - thresh)
+        }
 #        segments(x0 = x0s, x1 = x1s, y0 = y0s, col = "green", lty=2)
 #        segments(x0 = x0s, x1 = x1s, y0 = y1s, col = "red", lty=2)
         rect(xleft = x0s, xright = x1s, ybottom = y0s, ytop = ylim[2], 
