@@ -82,13 +82,14 @@ runPanelcnMops <- function(XandCB, testiv = c(1), countWindows,
     XandCBMatrix <- as.matrix(XandCB@elementMetadata)
 
     ## quality control
+    maxRC <- apply(XandCBMatrix, 1, max)
     medianRC <- apply(XandCBMatrix, 1, median)
     sampleMedian <- apply(XandCBMatrix, 2, median)
     sampleThresh <- median(sampleMedian[-testiv])*0.55
 #    sampleThresh <- mean(sampleMedian[-testiv]) - 2*sd(sampleMedian[-testiv])
     message(paste("new sampleThresh", sampleThresh))
     poorQual <- which(medianRC < minMedianRC)
-    highQual <- which(medianRC >= 10000)
+    highQual <- which(medianRC >= 10000 | maxRC >= 10000)
     poorSamples <- which(sampleMedian < sampleThresh)
 
     for (h in highQual) {
