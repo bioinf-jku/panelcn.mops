@@ -80,7 +80,7 @@ panelcn.mops <- function(input, testi = 1, geneInd=NULL,
         inputType <- "GRanges"
         input <- sortSeqlevels(input)
         input <- GenomicRanges::sort(input)
-        X <- IRanges::as.matrix(IRanges::values(input))
+        X <- as.matrix(mcols(input))
         if (ncol(X)==1){
             stop("It is not possible to run cn.mops on only ONE sample.\n")
         }
