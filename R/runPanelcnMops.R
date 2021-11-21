@@ -89,21 +89,33 @@ runPanelcnMops <- function(XandCB, testiv = c(1), countWindows,
 #    sampleThresh <- mean(sampleMedian[-testiv]) - 2*sd(sampleMedian[-testiv])
     message(paste("new sampleThresh", sampleThresh))
     poorQual <- which(medianRC < minMedianRC)
-    highQual <- which(medianRC >= 10000 | maxRC >= 10000)
+    highRC <- which(maxRC >= 7000 & maxRC < 70000)
+    veryHighRC <- which(maxRC >= 70000)
     poorSamples <- which(sampleMedian < sampleThresh)
 
-    for (h in highQual) {
+    for (h in highRC) {
         for (s in seq_len(ncol(XandCBMatrix))) {
             XandCB@elementMetadata[h,s] <- XandCBMatrix[h,s]/10
         }
     }
 
+    for (h in veryHighRC) {
+        for (s in seq_len(ncol(XandCBMatrix))) {
+            XandCB@elementMetadata[h,s] <- XandCBMatrix[h,s]/100
+        }
+    }
+
     colnames(XandCB@elementMetadata) <- sampleNames
     
-    if (length(highQual) > 0){
+    if (length(highRC) > 0){
         message(paste0("Had to reduce read counts for exon ",
-                        countWindows[highQual,]$name,"\n"))
+                        countWindows[highRC,]$name,"\n"))
     }
+    if (length(veryHighRC) > 0){
+        message(paste0("Had to reduce read counts for exon ",
+                        countWindows[veryHighRC,]$name,"\n"))
+    }
+
 
     if (length(poorQual) > 0) {
         message(paste("Cannot use exon", countWindows[poorQual,]$name, "\n"))
