@@ -89,8 +89,8 @@ runPanelcnMops <- function(XandCB, testiv = c(1), countWindows,
 #    sampleThresh <- mean(sampleMedian[-testiv]) - 2*sd(sampleMedian[-testiv])
     message(paste("new sampleThresh", sampleThresh))
     poorQual <- which(medianRC < minMedianRC)
-    highRC <- which(maxRC >= 7000 & maxRC < 70000)
-    veryHighRC <- which(maxRC >= 70000)
+    highRC <- which(maxRC >= 5000 & maxRC < 25000)
+    veryHighRC <- which(maxRC >= 25000)
     poorSamples <- which(sampleMedian < sampleThresh)
 
     for (h in highRC) {
