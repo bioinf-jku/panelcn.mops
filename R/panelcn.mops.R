@@ -325,7 +325,7 @@ panelcn.mops <- function(input, testi = 1, geneInd=NULL,
         
         if (length(highRC) > 0) {
             for (h in highRC) {
-                for (s in seq_len(ncol(XandCBMatrix))) {
+                for (s in seq_len(ncol(X))) {
                     X[h,s] <- X[h,s]/10
                 }
             }
@@ -334,7 +334,6 @@ panelcn.mops <- function(input, testi = 1, geneInd=NULL,
             X.norm <- normalizeChromosomes(X, normType=normType,
                                             sizeFactor=sizeFactor, qu=qu,
                                             quSizeFactor=quSizeFactor)
-            nSamples <- ncol(X)
         
         }
 
