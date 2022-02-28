@@ -271,6 +271,8 @@ panelcn.mops <- function(input, testi = 1, geneInd=NULL,
         X.norm <- normalizeChromosomes(X, normType=normType,
                                         sizeFactor=sizeFactor, qu=qu, 
                                         quSizeFactor=quSizeFactor)
+                                        
+
         medianX.norm <- apply(as.matrix(X.norm), 1, median)
         ratios <- sapply(seq_len(ncol(X.norm)), function(i)
                             as.matrix(X.norm)[,i]/medianX.norm )
@@ -316,6 +318,27 @@ panelcn.mops <- function(input, testi = 1, geneInd=NULL,
             message(paste("Bad test sample", sampleNames[badtest], 
                             "\nTry using more controls!"))
         }
+        
+        # high RC QC
+        maxRC.norm <- apply(as.matrix(X.norm), 1, max)
+        highRC <- which(maxRC.norm >= 10000)
+        
+        if (length(highRC) > 0) {
+            for (h in highRC) {
+                for (s in seq_len(ncol(XandCBMatrix))) {
+                    X[h,s] <- X[h,s]/10
+                }
+            }
+            message("Scaling high normalized RCs...")
+            message("Normalizing again...")
+            X.norm <- normalizeChromosomes(X, normType=normType,
+                                            sizeFactor=sizeFactor, qu=qu,
+                                            quSizeFactor=quSizeFactor)
+            nSamples <- ncol(X)
+        
+        }
+
+
         
         be <- boxplot(t(X.norm), plot=FALSE)
         ce <- (be$stats[5,] - be$stats[1,])/be$stats[3,]
